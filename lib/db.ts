@@ -2,10 +2,10 @@ import mysql from 'serverless-mysql';
 
 const db = mysql({
   config: {
-    host: '',
-    database: '',
-    user: '',
-    password: ''
+    host: 'db-mysql-sfo2-23027-do-user-8890113-0.b.db.ondigitalocean.com:25060',
+    database: 'cpscdb',
+    user: 'cpscuser',
+    password: 'ul1ntaqdwfcl3rqq'
   }
 });
 
