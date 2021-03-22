@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../styles/theme';
 import type { AppProps } from 'next/app';
+import { Provider } from 'next-auth/client';
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
@@ -17,16 +18,21 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   }, []);
 
   return (
-    <React.Fragment>
-      <Head>
-        <title>Loading...</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </React.Fragment>
+    <Provider options={{
+      clientMaxAge: 0,
+      keepAlive: 0
+    }} session={ pageProps.session }>
+      <React.Fragment>
+        <Head>
+          <title>Loading...</title>
+          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </React.Fragment>
+    </Provider>
   );
 }
 

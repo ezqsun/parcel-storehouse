@@ -3,6 +3,9 @@ import Head from 'next/head';
 import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import Link from 'next/link';
+import Header from '../components/Header';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,18 +31,7 @@ export default function Home(): JSX.Element {
         <title>CPSC 304 Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            CPSC 304
-          </Typography>
-          <Button color="inherit">Register</Button>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
+      <Header title="CPSC 304"/>
     </div>
   );
 }
