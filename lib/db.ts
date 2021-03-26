@@ -2,7 +2,7 @@ import mysql from 'serverless-mysql';
 
 const db = mysql({
   config: {
-    host: 'db-mysql-sfo2-23027-do-user-8890113-0.b.db.ondigitalocean.com:25060',
+    host: '34.69.99.207',
     database: 'cpscdb',
     user: 'cpscuser',
     password: 'ul1ntaqdwfcl3rqq'
@@ -12,12 +12,31 @@ const db = mysql({
 /*
  * Queries the database
  */
-export async function query<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T | unknown> {
+export async function query<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T[]> {
   try {
-    const queryResult = await db.query<T>(queryString, queryParams);
+    const queryResult = await db.query<T[]>(queryString, queryParams);
     await db.end();
     return queryResult;
   } catch (error: unknown) {
-    return error;
+    console.log(error);
+    throw error;
   }
 }
+
+export async function querySingle<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T> {
+  try {
+    const queryResult = await db.query<T[]>(queryString, queryParams);
+    await db.end();
+
+    if (queryResult.length === 1) {
+      return queryResult[0];
+    }
+
+    throw new Error(`Error with query. Query returned ${queryResult.length} items instead of the desired one item.`)
+
+  } catch (error: unknown) {
+    console.log(error);
+    throw error;
+  }
+}
+
