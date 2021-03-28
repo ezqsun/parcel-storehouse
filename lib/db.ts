@@ -13,30 +13,18 @@ const db = mysql({
  * Queries the database
  */
 export async function query<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T[]> {
-  try {
-    const queryResult = await db.query<T[]>(queryString, queryParams);
-    await db.end();
-    return queryResult;
-  } catch (error: unknown) {
-    console.log(error);
-    throw error;
-  }
+  const queryResult = await db.query<T[]>(queryString, queryParams);
+  await db.end();
+  return queryResult;
 }
 
 export async function querySingle<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T> {
-  try {
-    const queryResult = await db.query<T[]>(queryString, queryParams);
-    await db.end();
+  const queryResult = await db.query<T[]>(queryString, queryParams);
+  await db.end();
 
-    if (queryResult.length === 1) {
-      return queryResult[0];
-    }
-
-    throw new Error(`Error with query. Query returned ${queryResult.length} items instead of the desired one item.`)
-
-  } catch (error: unknown) {
-    console.log(error);
-    throw error;
+  if (queryResult.length === 1) {
+    return queryResult[0];
   }
+  throw new Error(`Error with query. Query returned ${queryResult.length} items instead of the desired one item.`);
 }
 

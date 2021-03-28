@@ -16,10 +16,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         const passHash = hash.update(passBuf).digest('hex');
     
         if (passHash === user.password) {
-            console.log(user);
 
             if (user.is_blacklisted) {
-                
+
                 return res.status(401).json({ error: 'Given user is blacklisted from accessing the service' });
             }
 
@@ -32,6 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                 registration_date: Math.floor(user.registration_date.getTime() / 1000)
             };
 
+            //Note: This is not how a refresh token should be made, because we cannot revoke it
             const payload_refresh = {
                 exp: dateNow + 2678400,
                 iat: dateNow,
@@ -51,8 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         }
 
     } catch (error: unknown) {
-
-        console.log(error);
+        //Ignored
     }
 
     return res.status(401).json({ error: 'A user with that email and password was not found' });
@@ -62,3 +61,4 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     res.json({ message: "Missing required headers to process request" });
   }
 };
+

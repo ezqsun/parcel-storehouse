@@ -3,7 +3,8 @@ import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/co
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
-import { useSession } from 'next-auth/client';
+import { UserContext } from './UserState';
+import React from 'react';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({ title }): JSX.Element {
   
   const classes = useStyles();
-  const [session, loading] = useSession();
+  const [ state, dispatch ] = React.useContext(UserContext);
   
   return (
     <AppBar position="static">
@@ -35,22 +36,20 @@ export default function Header({ title }): JSX.Element {
           { title }
         </Typography>
         {
-            !session &&
+            !state &&
             <>
                 <Link href="/auth/register">
                     <Button color="inherit">Register</Button>
                 </Link>
-                <Link href="/api/auth/signin">
+                <Link href="/auth/login">
                     <Button color="inherit">Login</Button>
                 </Link>
             </>
         }
         {
-            session &&
+            state &&
             <>
-                <Link href="/auth/register">
-                    <Button color="inherit">Logout</Button>
-                </Link>
+                <Button color="inherit" onClick={(e) => dispatch({type: 'LOGOUT'})}>Logout</Button>
                 <Link href="/auth/login">
                     <Button color="inherit">Profile</Button>
                 </Link>
