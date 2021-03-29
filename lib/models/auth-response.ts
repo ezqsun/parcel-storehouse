@@ -3,11 +3,11 @@ interface BaseAuthResponse {
 }
 
 export interface AuthSuccessResponse extends BaseAuthResponse {
-    result: object;
+    result: any;
 }
 
 export interface AuthErrorResponse extends BaseAuthResponse {
-    error: object;
+    error: any;
 }
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse

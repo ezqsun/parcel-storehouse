@@ -21,7 +21,7 @@ export const requireAuth = async (req: NextApiRequest, res: NextApiResponse, han
             case 'Bearer':
                 const verifyRes = await verify(credentials);
                 if (verifyRes) {
-                    const jwtPayload = JSON.parse(verifyRes.payload.toString())
+                    const jwtPayload = JSON.parse(verifyRes.payload.toString());
                     const dateNow = Math.floor(Date.now() / 1000);
                     if (jwtPayload.exp >= dateNow) {
                         return res.status(401).json({ error: 'Expired bearer token provided to api.'});
@@ -45,4 +45,4 @@ export const requireAuth = async (req: NextApiRequest, res: NextApiResponse, han
 
         return res.status(401).json({ error: 'Unknown authorization error occurred.' });
     }
-}
+};

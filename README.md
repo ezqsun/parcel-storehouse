@@ -1,8 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### University of British Columbia, Vancouver
+Department of Computer Science
 
-## Getting Started
+***
 
-First, run the development server:
+
+<h1 align="center">CPSC 304 Project</h1>
+
+Group Number: 72
+
+| Name         | Student Number | CS Alias | Preferred E-mail Address |
+|:------------:|:--------------:|:--------:|:------------------------:|
+| Mellie Vo    | 32474158       | a7f1b    | emilyzqsun@gmail.com     |
+| Emily Sun    | 48109722       | w1e2b    | hello@mellie.dev         |
+
+# CS Ship (or some name idk)
+Insert some description about the project here
+
+## Running the project
+### Note 
+The database information (ip, user, pass) is hardcoded in the app. 
+This is insecure, and environment variables should utilized (in a prod app).
+
+If you want to use the default database, you will need to connect to the UBC VPN.
+
+If you change the database (located in lib/db.ts), you should apply all the migrations 
+(located in milestones/db_migrations).
+
+***
+
+To run the development server:
 
 ```bash
 npm run dev
@@ -12,23 +38,24 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Project Dependencies
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+| Depenency name   | Usage reason/purpose                                                |
+|:----------------:|:-------------------------------------------------------------------:|
+| next             | The framework (react) for UI, routing, api, etc.                    |
+| material-ui      | The UI framework (similar to bootstrap)                             |
+| eslint           | Allow for linting of code (codestyle)                               |
+| dexie            | Allow us to access IndexedDB to persist data on page reload         |
+| node-jose        | Allows for generation, signing and verification of JWTs             |
+| jest             | A unit testing library                                              |
+| serverless-mysql | The library we used to allow us to perform SQL queries              |
+| typescript       | Used to avoid mistakes in javascript                                |
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Afterthoughts
+Our auth system is based around OAuth 2.0 but is an overly simplistic, and likely insecure system. 
+It should be fairly robust, as it uses node-jose; however, it lacks many design considerations, such 
+as revoking of refresh tokens.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Alternatively, an auth lib could have been used; however, many of these libraries for next-js had defined 
+user structures, so we chose to run our own auth library as it gave us control over the SQL queries and 
+allowed us to chose how we would structure our data.

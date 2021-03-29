@@ -13,9 +13,11 @@ export interface AuthReduer {
     authResult?: AuthUser
 }
 
+let db: UserDatabase;
+
 if (process.browser) {
 
-    var db = new UserDatabase('userDb');
+    db = new UserDatabase('userDb');
 
     db.open().catch(err => {
         console.error(`Open failed: ${err.stack}`);
@@ -37,7 +39,7 @@ export const reducer = (state, action: AuthReduer) => {
                 ...action.authResult
             };
     }
-}
+};
 
-export const initialState = null
+export const initialState = null;
 

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { reducer, AuthReduer, initialState } from "../contexts/user-reducer";
-import Dexie from 'dexie';
 import { UserDatabase } from "contexts/user-index";
 
 export const UserContext = React.createContext<[any, React.Dispatch<AuthReduer>]>(null);
@@ -17,7 +16,7 @@ if (process.browser) {
 
 export const UserProvider = ({ children }) => {
 
-    const [state, dispatch] = React.useReducer(reducer, initialState)
+    const [state, dispatch] = React.useReducer(reducer, initialState);
 
     useEffect(() => {
 
@@ -28,7 +27,7 @@ export const UserProvider = ({ children }) => {
                     type: 'SET_AUTH',
                     authResult: user[0]
                 });
-                console.log(user[0])
+                console.log(user[0]);
             }
         });
     }, []);
@@ -37,5 +36,5 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider value={[state, dispatch]}>
             { children}
         </UserContext.Provider>
-    )
-}
+    );
+};
