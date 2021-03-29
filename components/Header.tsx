@@ -1,10 +1,11 @@
 import Head from 'next/head';
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
 import { UserContext } from './UserState';
 import React from 'react';
+import { deepOrange } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +27,19 @@ export default function Header({ title }): JSX.Element {
   const classes = useStyles();
   const [ state, dispatch ] = React.useContext(UserContext);
   
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  console.log(state);
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -49,10 +63,20 @@ export default function Header({ title }): JSX.Element {
         {
             state &&
             <>
-                <Button color="inherit" onClick={(e) => dispatch({type: 'LOGOUT'})}>Logout</Button>
-                <Link href="/auth/login">
-                    <Button color="inherit">Profile</Button>
-                </Link>
+                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                  <Avatar style={{backgroundColor: deepOrange[500]}}>H</Avatar>
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={(e) => dispatch({type: 'LOGOUT'})}>Logout</MenuItem>
+                </Menu>
             </>
         }
       </Toolbar>
