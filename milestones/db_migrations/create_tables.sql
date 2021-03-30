@@ -1,47 +1,47 @@
-CREATE DATABASE project;
+CREATE DATABASE cpscdb;
 
-USE project;
+USE cpscdb;
 
-CREATE TABLE PositionToWage
+CREATE TABLE position_to_wage
 (
 	`position` varchar(255) NOT NULL,
     `wage` FLOAT NOT NULL DEFAULT 0,
     PRIMARY KEY (`position`)
 );
 
-CREATE TABLE Employees
+CREATE TABLE employees
 (
 	`eid` INT NOT NULL AUTO_INCREMENT,
-    `phone_number` INT,
+    `phone_number` varchar(255) NOT NULL,
     `name` varchar(255) NOT NULL,
     `address` varchar(255) NOT NULL,
     `position` varchar(255) NOT NULL,
     PRIMARY KEY (`eid`),
 	UNIQUE KEY name_phone_number_unique(`name`, `phone_number`),
 	UNIQUE KEY name_address_unique(`name`, `address`),
-    FOREIGN KEY (`position`) REFERENCES PositionToWage(`position`)
+    FOREIGN KEY (`position`) REFERENCES position_to_wage(`position`)
 );
 
-CREATE TABLE Branches
+CREATE TABLE branches
 (
 	`bid` INT NOT NULL AUTO_INCREMENT,
     `address` varchar(255) NOT NULL,
-    `phone_number` INT NOT NULL,
+    `phone_number` varchar(255) NOT NULL,
     PRIMARY KEY (`bid`),
     UNIQUE KEY (`address`),
     UNIQUE KEY (`phone_number`)
 );
 
-CREATE TABLE WorksAt
+CREATE TABLE works_at
 (
 	`eid` INT NOT NULL,
     `bid` INT NOT NULL,
     PRIMARY KEY (`eid`, `bid`),
-    FOREIGN KEY (`eid`) REFERENCES Employees(`eid`),
-    FOREIGN KEY (`bid`) REFERENCES Branches(`bid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
+    FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
 );
 
-CREATE TABLE Customers
+CREATE TABLE customers
 (
 	`cid` INT NOT NULL AUTO_INCREMENT,
     `address` varchar(255) NOT NULL,
@@ -49,8 +49,8 @@ CREATE TABLE Customers
     `name` varchar(255) NOT NULL,
     `points` INT NOT NULL DEFAULT 0,
     `registration_date` DATE NOT NULL,
-    `phone_number` INT NOT NULL,
-    `password` BINARY(32) NOT NULL,
+    `phone_number` varchar(255) NOT NULL,
+    `password` varchar(64) NOT NULL,
     `is_blacklisted` BOOL NOT NULL DEFAULT false,
     PRIMARY KEY (`cid`),
 	UNIQUE KEY (`email`),
@@ -58,24 +58,24 @@ CREATE TABLE Customers
 	UNIQUE KEY name_phone_number_unique(`name`, `phone_number`)
 );
 
-CREATE TABLE FinesAccruedBy
+CREATE TABLE fines_accrued_by
 (
 	`fid` INT NOT NULL AUTO_INCREMENT,
     `cid` INT NOT NULL,
     `date` DATE NOT NULL,
     `strike` INT NOT NULL,
     PRIMARY KEY (`fid`, `cid`),
-    FOREIGN KEY (`cid`) REFERENCES Customers(`cid`)
+    FOREIGN KEY (`cid`) REFERENCES customers(`cid`)
 );
 
-CREATE TABLE Couriers
+CREATE TABLE couriers
 (
 	`nid` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`nid`)
 );
 
-CREATE TABLE Packages
+CREATE TABLE packages
 (
     `pid` INT NOT NULL AUTO_INCREMENT,
     `cid` INT NOT NULL,
@@ -83,17 +83,17 @@ CREATE TABLE Packages
     `eid` INT NOT NULL,
     `nid` INT NOT NULL,
     `tracking_number` varchar(36) NOT NULL,
-    `processed_date` DATE NOT NULL,
+    `processed_date` DATE,
     `ordered_date` DATE,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`cid`) REFERENCES Customers(`cid`),
-    FOREIGN KEY (`nid`) REFERENCES Couriers(`nid`),
-    FOREIGN KEY (`bid`) REFERENCES Branches(`bid`),
-    FOREIGN KEY (`eid`) REFERENCES Employees(`eid`)
+    FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
+    FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
+    FOREIGN KEY (`bid`) REFERENCES branches(`bid`),
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
 );
 
 
-CREATE TABLE Shipments
+CREATE TABLE shipments
 (
 	`pid` INT NOT NULL,
     `shipping_date` DATE NOT NULL,
@@ -101,10 +101,10 @@ CREATE TABLE Shipments
     `weight` FLOAT NOT NULL DEFAULT 0,
     `recipient_name` varchar(255) NOT NULL,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`pid`) REFERENCES Packages(`pid`)
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`)
 );
 
-CREATE TABLE ShipmentBundles
+CREATE TABLE shipment_bundles
 (
     `sbid` INT NOT NULL AUTO_INCREMENT,
     `cid` INT NOT NULL,
@@ -115,13 +115,13 @@ CREATE TABLE ShipmentBundles
     `eid` INT NOT NULL,
     `nid` INT NOT NULL,
     PRIMARY KEY (`sbid`),
-    FOREIGN KEY (`cid`) REFERENCES Customers(`cid`),
-    FOREIGN KEY (`nid`) REFERENCES Couriers(`nid`),
-    FOREIGN KEY (`eid`) REFERENCES Employees(`eid`)
+    FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
+    FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
 
 );
 
-CREATE TABLE ShipmentBundlesToDisposeOf
+CREATE TABLE shipment_bundles_to_dispose_of
 (
     `arrival_date` DATE NOT NULL,
     `picked_up` BOOL NOT NULL DEFAULT false,
@@ -130,26 +130,26 @@ CREATE TABLE ShipmentBundlesToDisposeOf
 );
 
 
-CREATE TABLE ShipmentBundlesContainsStorage
+CREATE TABLE shipment_bundles_contains_storage
 (
 	`pid` INT NOT NULL,
-    `sbid` INT NOT NULL,
+    `sbid` INT NULL,
     `arrival_date` DATE NOT NULL,
     `picked_up` BOOL NOT NULL,
-    PRIMARY KEY (`pid`, `sbid`),
-    FOREIGN KEY (`pid`) REFERENCES Packages(`pid`),
-    FOREIGN KEY (`sbid`) REFERENCES ShipmentBundles(`sbid`),
-    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES ShipmentBundlesToDisposeOf(`arrival_date`, `picked_up`)
+    PRIMARY KEY (`pid`),
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`),
+    FOREIGN KEY (`sbid`) REFERENCES shipment_bundles(`sbid`),
+    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`)
 );
 
 
 
 
-CREATE TABLE CourierBranchsIsStoreOfCourier
+CREATE TABLE courier_branch_is_store_of_courier
 (
 	`nbid` INT NOT NULL AUTO_INCREMENT,
     `nid` INT NOT NULL,
-    `phone_number` INT NOT NULL,
+    `phone_number` varchar(255) NOT NULL,
     `address` VARCHAR(255) NOT NULL,
     `discount_per_lb` FLOAT NOT NULL DEFAULT 0,
     PRIMARY KEY (`nbid`),
@@ -157,22 +157,22 @@ CREATE TABLE CourierBranchsIsStoreOfCourier
     UNIQUE KEY (`address`)
 );
 
-CREATE TABLE DropOffPoints
+CREATE TABLE drop_off_points
 (
 	`nbid` INT NOT NULL,
     `bid` INT NOT NULL,
     PRIMARY KEY (`nbid`, `bid`),
-    FOREIGN KEY (`nbid`) REFERENCES CourierBranchsIsStoreOfCourier(`nbid`),
-    FOREIGN KEY (`bid`) REFERENCES Branches(`bid`)
+    FOREIGN KEY (`nbid`) REFERENCES courier_branch_is_store_of_courier(`nbid`),
+    FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
 );
 
-CREATE TABLE ShippedBy
+CREATE TABLE shipped_by
 (
 	`eid` INT NOT NULL,
     `pid` INT NOT NULL,
     PRIMARY KEY (`eid`, `pid`),
-    FOREIGN KEY (`eid`) REFERENCES Employees(`eid`),
-    FOREIGN KEY (`pid`) REFERENCES Packages(`pid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`)
 );
 
 /* -------------------------------------------------------------------------
@@ -183,10 +183,10 @@ CREATE TABLE ShippedBy
  *       the database exists, this script has been run and re-creating the db 
  *       will result in an error
  * ------------------------------------------------------------------------- */
-CREATE TABLE Migrations
+CREATE TABLE migrations
 (
 	`migration_id` INT NOT NULL,
     PRIMARY KEY (`migration_id`)
 );
 
-INSERT INTO Migrations(`migration_id`) VALUES (0)
+INSERT INTO migrations(`migration_id`) VALUES (0)
