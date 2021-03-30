@@ -7,6 +7,6 @@ export interface Customer {
     registration_date: Date;
     phone_number: number;
     password: string;
-    teir: number;
+    tier: number;
     is_blacklisted: number;
 }
