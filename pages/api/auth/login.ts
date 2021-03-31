@@ -11,8 +11,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
         const user = await querySingle<Customer>("SELECT * FROM Customers WHERE email = ?", req.headers["username"]);
 
-        var hash = createHash('sha256');
-        var passBuf = Buffer.from(req.headers["password"] as string);
+        const hash = createHash('sha256');
+        const passBuf = Buffer.from(req.headers["password"] as string);
         const passHash = hash.update(passBuf).digest('hex');
     
         if (passHash === user.password) {

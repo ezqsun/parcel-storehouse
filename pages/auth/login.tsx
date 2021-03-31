@@ -4,7 +4,7 @@ import React, { FormEvent } from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
 import Image from 'next/image';
 import { UserContext } from 'components/UserState';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { AuthUser } from 'contexts/user-reducer';
 
 export default function Login(): JSX.Element {
@@ -25,20 +25,20 @@ export default function Login(): JSX.Element {
     });
     
     const data = await resp.json();
-    console.log({resp, data})
+    console.log({resp, data});
 
     if (resp.status === 200) {
       dispatch({
         type: 'LOGIN',
         authResult: data
       });
-      router.push('/')
+      router.push('/');
     } else {
       
     }
 
 
-  }
+  };
 
   return (
     <>
