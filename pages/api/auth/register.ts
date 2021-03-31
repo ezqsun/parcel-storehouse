@@ -1,8 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { sign } from '@lib/auth/createJwt';
-import { querySingle } from '@lib/db';
-import { createHash } from 'crypto';
-import { Customer } from '@lib/models/customers';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   if ("username" in req.headers && "password" in req.headers) {

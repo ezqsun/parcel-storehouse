@@ -7,16 +7,16 @@ function getKeys() {
   return jose.JWK.asKeyStore(ks.toString());
 }
 
-export async function verify(payload: string): Promise<boolean> {
+export async function verify(payload: string): Promise<jose.JWS.VerificationResult | false> {
     try {
 
         const keys = await getKeys();
 
         const [key] = keys.all({ use: 'sig' });
       
-        await jose.JWS.createVerify(await jose.JWK.asKey(key)).verify(payload);
+        const verifyRes = await jose.JWS.createVerify(await jose.JWK.asKey(key)).verify(payload);
         
-        return true;
+        return verifyRes;
     } catch (err: unknown) {
         return false;
     }
