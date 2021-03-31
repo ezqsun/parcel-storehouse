@@ -78,7 +78,7 @@ CREATE TABLE couriers
 CREATE TABLE packages
 (
     `pid` INT NOT NULL AUTO_INCREMENT,
-    `cid` INT NOT NULL,
+    `cid` INT NULL,
     `bid` INT NOT NULL,
     `eid` INT NOT NULL,
     `nid` INT NOT NULL,
