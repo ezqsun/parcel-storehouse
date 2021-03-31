@@ -1,10 +1,10 @@
 import Head from "next/head";
-import Header from "../../components/Header";
+import Header from "../components/Header";
 import { UserContext } from "components/UserState";
 import React, { FormEvent } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
-import { Courier } from "../../lib/models/couriers";
-import { Package } from "../../lib/models/packages";
+import { Courier } from "../lib/models/couriers";
+import { Package } from "../lib/models/packages";
 import { StarRateRounded } from "@material-ui/icons";
 
 export default class Packages extends React.Component<{}, Package> {
