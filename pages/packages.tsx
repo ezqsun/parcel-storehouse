@@ -1,10 +1,10 @@
 import Head from "next/head";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import { UserContext } from "components/UserState";
 import React, { FormEvent } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
-import { Courier } from "../lib/models/couriers";
-import { Package } from "../lib/models/packages";
+import { Courier } from "../../lib/models/couriers";
+import { Package } from "../../lib/models/packages";
 import { StarRateRounded } from "@material-ui/icons";
 
 export default class Packages extends React.Component<{}, Package> {
@@ -35,7 +35,7 @@ export default class Packages extends React.Component<{}, Package> {
 
     const resp = await fetch("/api/profile/packages", {
       body: JSON.stringify(this.state),
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     });
 
@@ -52,100 +52,102 @@ export default class Packages extends React.Component<{}, Package> {
           <title>CPSC 304 Project</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Header title="Packages" />
-        <Grid container>
-          <Grid item xs={4}>
-            <Grid
-              container
-              style={{ backgroundColor: "white", height: "calc(100vh - 64px)" }}
-              justify="center"
-              alignContent="center"
-              direction="column"
-            >
-              <form
-                style={{ width: "60%" }}
-                onSubmit={this.handleInsertPackage}
+
+        <Header title="Admin">
+          <Grid container>
+            <Grid item xs={4}>
+              <Grid
+                container
+                style={{ backgroundColor: "white", height: "calc(100vh - 64px)" }}
+                justify="center"
+                alignContent="center"
+                direction="column"
               >
-                <TextField
-                  id="cid"
-                  name="cid"
-                  label="Customer name"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-                <TextField
-                  id="tracking_number"
-                  name="tracking_number"
-                  label="Tracking Number"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="ordered_date"
-                  name="ordered_date"
-                  label="Ordered Date"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="processed_date"
-                  name="processed_date"
-                  label="Processed Date"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="nid"
-                  name="nid"
-                  label="Courier"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="bid"
-                  name="bid"
-                  label="Branch"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="eid"
-                  name="eid"
-                  label="Employee"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "10px" }} />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
+                <form
+                  style={{ width: "60%" }}
+                  onSubmit={this.handleInsertPackage}
                 >
-                  Add
+                  <TextField
+                    id="cid"
+                    name="cid"
+                    label="Customer name"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+                  <TextField
+                    id="tracking_number"
+                    name="tracking_number"
+                    label="Tracking Number"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="ordered_date"
+                    name="ordered_date"
+                    label="Ordered Date"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="processed_date"
+                    name="processed_date"
+                    label="Processed Date"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="nid"
+                    name="nid"
+                    label="Courier"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="bid"
+                    name="bid"
+                    label="Branch"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="eid"
+                    name="eid"
+                    label="Employee"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "10px" }} />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Add
                 </Button>
-              </form>
+                </form>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Header>
       </>
     );
   }

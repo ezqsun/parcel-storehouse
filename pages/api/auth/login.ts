@@ -9,49 +9,50 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     //Query database for password
     try {
 
-        const user = await querySingle<Customer>("SELECT * FROM Customers WHERE email = ?", req.headers["username"]);
+      const user = await querySingle<Customer>("SELECT * FROM customers WHERE email = ?", req.headers["username"]);
 
-        const hash = createHash('sha256');
-        const passBuf = Buffer.from(req.headers["password"] as string);
-        const passHash = hash.update(passBuf).digest('hex');
-    
-        if (passHash === user.password) {
+      const hash = createHash('sha256');
+      const passBuf = Buffer.from(req.headers["password"] as string);
+      const passHash = hash.update(passBuf).digest('hex');
 
-            if (user.is_blacklisted) {
+      if (passHash === user.password) {
 
-                return res.status(401).json({ error: 'Given user is blacklisted from accessing the service' });
-            }
+        if (user.is_blacklisted) {
 
-            const dateNow = Math.floor(Date.now() / 1000);
-            const payload_access = {
-                exp: dateNow + 3600,
-                iat: dateNow,
-                sub: user.cid,
-                name: user.name,
-                registration_date: Math.floor(user.registration_date.getTime() / 1000)
-            };
-
-            //Note: This is not how a refresh token should be made, because we cannot revoke it
-            const payload_refresh = {
-                exp: dateNow + 2678400,
-                iat: dateNow,
-                sub: user.cid
-            };
-
-            const access = await sign(payload_access);
-            const refresh = await sign(payload_refresh);
-            
-            return res.send({
-                token_type: 'Bearer',
-                expires_in: 3600,
-                expires_on: dateNow,
-                access_token: access,
-                refresh_token: refresh 
-            });
+          return res.status(401).json({ error: 'Given user is blacklisted from accessing the service' });
         }
 
+        const dateNow = Math.floor(Date.now() / 1000);
+        const payload_access = {
+          exp: dateNow + 3600,
+          iat: dateNow,
+          sub: user.cid,
+          name: user.name,
+          registration_date: Math.floor(user.registration_date.getTime() / 1000),
+          role: req.headers["username"] === 'hello@mellie.dev' ? 'admin' : 'user'
+        };
+
+        //Note: This is not how a refresh token should be made, because we cannot revoke it
+        const payload_refresh = {
+          exp: dateNow + 2678400,
+          iat: dateNow,
+          sub: user.cid
+        };
+
+        const access = await sign(payload_access);
+        const refresh = await sign(payload_refresh);
+
+        return res.send({
+          token_type: 'Bearer',
+          expires_in: 3600,
+          expires_on: dateNow,
+          access_token: access,
+          refresh_token: refresh
+        });
+      }
+
     } catch (error: unknown) {
-        //Ignored
+      //Ignored
     }
 
     return res.status(401).json({ error: 'A user with that email and password was not found' });

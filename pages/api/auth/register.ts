@@ -4,9 +4,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   if ("username" in req.headers && "password" in req.headers) {
     //Query database for password
     try {
-        
+
     } catch (error: unknown) {
-        console.log(error);
+      console.log(error);
     }
 
     return res.status(401).json({ error: 'A user with that email and password was not found' });
