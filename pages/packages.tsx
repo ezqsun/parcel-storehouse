@@ -5,7 +5,7 @@ import React, { FormEvent } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import { Courier } from "../lib/models/couriers";
 import { Package } from "../lib/models/packages";
-import { StarRateRounded } from "@material-ui/icons";
+import { BookOutlined, StarRateRounded } from "@material-ui/icons";
 
 export default class Packages extends React.Component<{}, Package> {
   public state = {
@@ -59,7 +59,26 @@ export default class Packages extends React.Component<{}, Package> {
       method: "DELETE",
     });
     const data = await resp.json();
-    console.log({resp, data});
+    console.log({ resp, data });
+  };
+
+  private handlePickup = async (e: FormEvent) => {
+    e.preventDefault();
+    const isPickedUp = e.target.elements.isPickedUp.value;
+    console.log(isPickedUp);
+    console.log(`/api/packages/${e.target.elements.pickupPid.value}`);
+    const resp = await fetch(
+      `/api/packages/${e.target.elements.pickupPid.value}`,
+      {
+        body: JSON.stringify({
+          isPickedUp: isPickedUp,
+        }),
+        headers: { "Content-Type": "application/json" },
+        method: "PUT",
+      }
+    );
+    const data = await resp.json();
+    console.log({ resp, data });
   };
 
   // //load couriers in dropdown
@@ -170,41 +189,84 @@ export default class Packages extends React.Component<{}, Package> {
             </Grid>
           </Grid>
           <Grid item xs={4}>
-              <Grid
-                container
-                style={{
-                  backgroundColor: "white",
-                  height: "calc(100vh - 64px)",
-                }}
-                justify="flex-start"
-                alignContent="center"
-                direction="column"
+            <Grid
+              container
+              style={{
+                backgroundColor: "white",
+                height: "calc(100vh - 64px)",
+              }}
+              justify="flex-start"
+              alignContent="center"
+              direction="column"
+            >
+              <h2>Delete existing package</h2>
+              <form
+                style={{ width: "60%" }}
+                onSubmit={this.handleDeletePackage}
               >
-                <h2>Delete existing package</h2>
-                <form
-                  style={{ width: "60%" }}
-                  onSubmit={this.handleDeletePackage}
-                >
-                  <TextField
-                    id="deletePid"
-                    name="deletePid"
-                    label="PID"
-                    variant="outlined"
-                    fullWidth={true}
-                  />
-                  <div style={{ padding: "10px" }} />
+                <TextField
+                  id="deletePid"
+                  name="deletePid"
+                  label="PID"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "10px" }} />
 
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                  >
-                    Delete
-                  </Button>
-                </form>
-              </Grid>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Delete
+                </Button>
+              </form>
             </Grid>
+          </Grid>
+          <Grid item xs={4}>
+            <Grid
+              container
+              style={{
+                backgroundColor: "white",
+                height: "calc(100vh - 64px)",
+              }}
+              justify="flex-start"
+              alignContent="center"
+              direction="column"
+            >
+              <h2>Update pick-up status</h2>
+              <form style={{ width: "60%" }} onSubmit={this.handlePickup}>
+                <TextField
+                  id="pickupPid"
+                  name="pickupPid"
+                  label="PID"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="isPickedUp"
+                  name="isPickedUp"
+                  label="Picked up"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+
+                <div style={{ padding: "10px" }} />
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Update
+                </Button>
+              </form>
+            </Grid>
+          </Grid>
         </Grid>
       </>
     );

@@ -6,13 +6,13 @@ const db = mysql({
     database: 'cpscdb',
     user: 'cpscuser',
     password: 'ul1ntaqdwfcl3rqq'
-  }
+  },
 });
 
 /*
  * Queries the database
  */
-export async function query<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T[]> {
+export async function query<T>(queryString: string, queryParams: (string | number | boolean)[] | string | number): Promise<T[]> {
   const queryResult = await db.query<T[]>(queryString, queryParams);
   await db.end();
   return queryResult;

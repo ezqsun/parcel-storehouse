@@ -139,7 +139,7 @@ CREATE TABLE shipment_bundles_contains_storage
     PRIMARY KEY (`pid`),
     FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE,
     FOREIGN KEY (`sbid`) REFERENCES shipment_bundles(`sbid`),
-    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`)
+    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`) ON UPDATE CASCADE
 );
 
 
