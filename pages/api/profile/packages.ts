@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       console.log(values);
 
       const ret = await query<Package>("INSERT INTO packages (cid, bid, eid, nid, tracking_number, processed_date, ordered_date) VALUES (?,?,?,?,?,?,?)",
-        values);
+        ...values);
 
 
       return res.send(ret);

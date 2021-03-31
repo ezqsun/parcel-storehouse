@@ -9,8 +9,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     //Query database for password
     try {
 
-      const user = await querySingle<Customer>("SELECT * FROM customers WHERE email = ?", req.headers["username"]);
+      const user = await querySingle<Customer>("SELECT * FROM customers WHERE email = ?", req.headers["username"] as string);
 
+      //Hash the provided password - note if this was prod, we would also want to salt and pepper but that isn't done here
       const hash = createHash('sha256');
       const passBuf = Buffer.from(req.headers["password"] as string);
       const passHash = hash.update(passBuf).digest('hex');

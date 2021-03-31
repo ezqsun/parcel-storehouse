@@ -22,9 +22,8 @@ import React from 'react';
 import { deepOrange } from '@material-ui/core/colors';
 import clsx from 'clsx';
 
-
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import DashbaordIcon from '@material-ui/icons/Dashboard';
+import ShipIcon from '@material-ui/icons/FlightTakeoff';
 
 
 const drawerWidth = 240;
@@ -127,6 +126,7 @@ export default function Header({ title, children }): JSX.Element {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <MenuItem style={{ width: '200px' }} disabled>Hi {state.user_data.name}!</MenuItem>
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={() => dispatch({ type: 'LOGOUT' })}>Logout</MenuItem>
@@ -146,21 +146,31 @@ export default function Header({ title, children }): JSX.Element {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
+            {
+              state && state.user_data.role === 'admin' &&
+              <>
+
+                <Link href="/admin">
+                  <ListItem button>
+                    <ListItemIcon><DashbaordIcon /></ListItemIcon>
+                    <ListItemText primary="Admin Dashboard" />
+                  </ListItem>
+                </Link>
+                <Divider />
+              </>
+            }
+            <Link href="/">
+              <ListItem button>
+                <ListItemIcon><DashbaordIcon /></ListItemIcon>
+                <ListItemText primary="Dashboard" />
               </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
+            </Link>
+            <Link href="/ship">
+              <ListItem button>
+                <ListItemIcon><ShipIcon /></ListItemIcon>
+                <ListItemText primary="Ship" />
               </ListItem>
-            ))}
+            </Link>
           </List>
         </div>
       </Drawer>

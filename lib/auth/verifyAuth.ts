@@ -23,13 +23,19 @@ export const requireAuth = async (req: NextApiRequest, res: NextApiResponse, han
                 if (verifyRes) {
                     const jwtPayload = JSON.parse(verifyRes.payload.toString());
                     const dateNow = Math.floor(Date.now() / 1000);
-                    if (jwtPayload.exp >= dateNow) {
+                    if (jwtPayload.exp <= dateNow) {
                         return res.status(401).json({ error: 'Expired bearer token provided to api.'});
                     }
                     const invokeResult = await handler({
                         name: jwtPayload.name,
+                        role: jwtPayload.role,
                         rawRequest: req
                     });
+
+                    if ('error' in invokeResult) {
+                      return res.status(invokeResult.statusCode).json({ error: invokeResult.error });
+                    }
+
                     const invokeDisplay = { ...invokeResult };
                     delete invokeDisplay.statusCode;
                     return res.status(invokeResult.statusCode).json(invokeDisplay);
@@ -45,4 +51,17 @@ export const requireAuth = async (req: NextApiRequest, res: NextApiResponse, han
 
         return res.status(401).json({ error: 'Unknown authorization error occurred.' });
     }
+};
+
+export const requireAdmin = async (req: NextApiRequest, res: NextApiResponse, handler: (req: AuthUserRequest) => Promise<AuthResponse>) => {
+  
+  await requireAuth(req, res, async (temp) => {
+    if (temp.role === 'admin') {
+      return await handler(temp);
+    }
+    return {
+      statusCode: 401,
+      error: 'You are not authorized to access this API'
+    }
+  })
 };
