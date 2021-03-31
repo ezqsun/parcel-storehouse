@@ -39,12 +39,12 @@ VALUES
 INSERT INTO customers(cid, address, email, name, points, registration_date, phone_number, password, is_blacklisted)
 VALUES
     (DEFAULT, '2205 Lower Mall', 'hello@mellie.dev', 'Mellie Vo', 0, '2021-03-25', '1234567890', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', false),
-    (DEFAULT, '122 Walter Hardwick Ave 305 Vancouver', 'smithw@hotmail.com', 'Wayne Smith', 780, '2012-07-25', '6047781478', 'agaiutans', false),
-    (DEFAULT, '3308 Ash St Vancouver BC V5Z 3E3 Vancouver ', 'agawrg@hotmail.com', 'Annie Gawrg', 100, '2020-07-25', '7787781478', '14qtgas', false),
-    (DEFAULT, '2485 Broadway W 414 Vancouver', 'laurage@hotmail.com', 'Laura Gerner', 470, '2012-07-25', '6047924784', '14gas34', true),
-    (DEFAULT, '275 28th Ave E Vancouver', 'Jordansq@hotmail.com', 'Jordan Saaw', 148, '2012-07-25', '7786459874', '78022atq', false),
-    (DEFAULT, '563 Union St Vancouver', 'eeaqt@hotmail.com', 'Eden Eath', 987, '2012-07-25', '7780146777', 'asgqertqfza', false),
-    (DEFAULT, '3007 8th Ave W Vancouver', 'saraga@hotmail.com', 'Sara Goon', 725, '2012-07-25', '6041000102', 'agwrqgagg', false);
+    (DEFAULT, '122 Walter Hardwick Ave 305 Vancouver', 'smithw@hotmail.com', 'Wayne Smith', 780, '2012-07-25', '6047781478', 'f70612557ff50ea691de39e22c15205530af7ea19295234ab0fcdc53f202168c', false),
+    (DEFAULT, '3308 Ash St Vancouver BC V5Z 3E3 Vancouver ', 'agawrg@hotmail.com', 'Annie Gawrg', 100, '2020-07-25', '7787781478', '8d8e12f55fd75258df0f96ffb0cf97bad094ac6844e021b9e6958dc6bd6feed7', false),
+    (DEFAULT, '2485 Broadway W 414 Vancouver', 'laurage@hotmail.com', 'Laura Gerner', 470, '2012-07-25', '6047924784', 'dbd83b6fb86597450f1d00879c0a46a9bf3e8989f741df127b03908b226e5a58', true),
+    (DEFAULT, '275 28th Ave E Vancouver', 'Jordansq@hotmail.com', 'Jordan Saaw', 148, '2012-07-25', '7786459874', '97a789d6d464e4667878d8b6043cda102ba27026a128c3aaf4b11a1725037310', false),
+    (DEFAULT, '563 Union St Vancouver', 'eeaqt@hotmail.com', 'Eden Eath', 987, '2012-07-25', '7780146777', '6c323dcd4daaabc38a40a138ae31c994a7147f9828b40500d6df2890bacfa553', false),
+    (DEFAULT, '3007 8th Ave W Vancouver', 'saraga@hotmail.com', 'Sara Goon', 725, '2012-07-25', '6041000102', 'dfc945fd15988da66959c6350e2bb3eeaf0e3a813c82624844aa542d4130217b', false);
 
 INSERT INTO fines_accrued_by(fid, cid, date, strike)
 VALUES  

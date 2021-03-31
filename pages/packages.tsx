@@ -33,14 +33,33 @@ export default class Packages extends React.Component<{}, Package> {
     e.preventDefault();
     console.log(JSON.stringify(this.state));
 
-    const resp = await fetch("/api/profile/packages", {
+    const resp = await fetch("/api/packages", {
       body: JSON.stringify(this.state),
-      headers: {'Content-Type': 'application/json'},
-      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
     });
 
     const data = await resp.json();
     console.log({ resp, data });
+  };
+
+  private handleDeletePackage = async (e: FormEvent) => {
+    e.preventDefault();
+    const pid = e.target.elements.deletePid.value;
+    const deletePackage = {
+      deletePid: pid,
+    };
+    console.log(deletePackage);
+    console.log(`/api/packages/${pid}`);
+    console.log(JSON.stringify(deletePackage));
+
+    const resp = await fetch(`/api/packages/${pid}`, {
+      body: JSON.stringify(deletePackage),
+      headers: { "Content-Type": "application/json" },
+      method: "DELETE",
+    });
+    const data = await resp.json();
+    console.log({resp, data});
   };
 
   // //load couriers in dropdown
@@ -53,15 +72,20 @@ export default class Packages extends React.Component<{}, Package> {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header title="Packages" />
+        <div style={{ padding: "20px" }} />
         <Grid container>
           <Grid item xs={4}>
             <Grid
               container
-              style={{ backgroundColor: "white", height: "calc(100vh - 64px)" }}
-              justify="center"
+              style={{
+                backgroundColor: "white",
+                height: "calc(100vh - 64px)",
+              }}
+              justify="flex-start"
               alignContent="center"
               direction="column"
             >
+              <h2>Add new package</h2>
               <form
                 style={{ width: "60%" }}
                 onSubmit={this.handleInsertPackage}
@@ -145,6 +169,42 @@ export default class Packages extends React.Component<{}, Package> {
               </form>
             </Grid>
           </Grid>
+          <Grid item xs={4}>
+              <Grid
+                container
+                style={{
+                  backgroundColor: "white",
+                  height: "calc(100vh - 64px)",
+                }}
+                justify="flex-start"
+                alignContent="center"
+                direction="column"
+              >
+                <h2>Delete existing package</h2>
+                <form
+                  style={{ width: "60%" }}
+                  onSubmit={this.handleDeletePackage}
+                >
+                  <TextField
+                    id="deletePid"
+                    name="deletePid"
+                    label="PID"
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "10px" }} />
+
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Delete
+                  </Button>
+                </form>
+              </Grid>
+            </Grid>
         </Grid>
       </>
     );
