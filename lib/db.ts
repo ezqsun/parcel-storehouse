@@ -28,3 +28,8 @@ export async function querySingle<T>(queryString: string, queryParams: (string |
   throw new Error(`Error with query. Query returned ${queryResult.length} items instead of the desired one item.`);
 }
 
+export async function queryAll<T>(queryString:string): Promise<T[]>{
+  const queryResult = await db.query<T[]>(queryString);
+  await db.end();
+  return queryResult;
+}
