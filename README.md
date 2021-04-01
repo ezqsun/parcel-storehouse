@@ -28,6 +28,14 @@ If you change the database (located in lib/db.ts), you should apply all the migr
 
 ***
 
+Our project is a next project. To run it, you will need node.js
+
+To install the project dependencies:
+
+```bash
+npm i
+```
+
 To run the development server:
 
 ```bash
