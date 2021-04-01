@@ -14,7 +14,7 @@ Group Number: 72
 | Emily Sun    | 48109722       | w1e2b    | hello@mellie.dev         |
 
 # CS Ship (or some name idk)
-Insert some description about the project here
+A shipping app
 
 ## Running the project
 ### Note 
@@ -24,7 +24,7 @@ This is insecure, and environment variables should utilized (in a prod app).
 If you want to use the default database, you will need to connect to the UBC VPN.
 
 If you change the database (located in lib/db.ts), you should apply all the migrations 
-(located in milestones/db_migrations).
+(located in milestones/db_migrations) OR the run the final script (milestones/final.sql).
 
 ***
 
