@@ -46,6 +46,16 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Accounts
+This app requires you to login to view some of the features. These a few of the account credentials
+
+| Email                   | Password                   | Notes                                |
+|:-----------------------:|:--------------------------:|:------------------------------------:|
+| hello@mellie.dev        | 123                        | Admin Account                        |
+| smithw@hotmail.com      | agaiutans                  | Random account with packages shipped |
+| eeaqt@hotmail.com       | asgqertqfza                | Random account with nothing shipped  |
+| laurage@hotmail.com     | 14gas34                    | Banned account                       |
+
 ## Project Dependencies
 
 | Depenency name   | Usage reason/purpose                                                |

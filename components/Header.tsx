@@ -108,9 +108,6 @@ export default function Header({ title, children, loading }: Props): JSX.Element
           {
             !state &&
             <>
-              <Link href="/packages">
-                <Button color="inherit">Packages</Button>
-              </Link>
               <Link href="/auth/register">
                 <Button color="inherit">Register</Button>
               </Link>
