@@ -25,6 +25,7 @@ import clsx from 'clsx';
 
 import DashbaordIcon from '@material-ui/icons/Dashboard';
 import ShipIcon from '@material-ui/icons/FlightTakeoff';
+import DealIcon from '@material-ui/icons/LocalAtm';
 
 
 const drawerWidth = 240;
@@ -176,6 +177,12 @@ export default function Header({ title, children, loading }: Props): JSX.Element
               <ListItem button>
                 <ListItemIcon><DashbaordIcon /></ListItemIcon>
                 <ListItemText primary="Dashboard" />
+              </ListItem>
+            </Link>
+            <Link href="/deals">
+              <ListItem button>
+                <ListItemIcon><DealIcon /></ListItemIcon>
+                <ListItemText primary="Deal finder" />
               </ListItem>
             </Link>
             <Link href="/ship">

@@ -1,28 +1,16 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import React from 'react';
-import { CircularProgress, Grid, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import Image from 'next/image';
-import { UserContext } from 'components/UserState';
-import InfoCard from 'components/InfoCard';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
 export default function Login(): JSX.Element {
-
-  const [state] = React.useContext(UserContext);
+  
   const [data, setData] = React.useState(null)
 
   React.useEffect(() => {
 
     async function fetchData() {
-
-      if (!state) {
-        return;
-      }
-
-      const resp = await fetch('/api/admin/courier', {
-        headers: {
-          Authorization: `${state.token_type} ${state.access_token}`
-        },
+      const resp = await fetch('/api/courier', {
         method: 'GET'
       });
 
@@ -33,7 +21,7 @@ export default function Login(): JSX.Element {
 
     fetchData();
 
-  }, [state]);
+  }, []);
 
   return (
     <>
