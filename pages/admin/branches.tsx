@@ -35,8 +35,6 @@ export default function Login(): JSX.Element {
 
   }, [state]);
 
-  const rows = [];
-
   return (
     <>
       <Head>

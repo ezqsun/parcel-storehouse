@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => requireAdmin(req, res, async (req) => {
 
-  const counts = await getCounts(['customers', 'branches', 'couriers', 'packages', 'employees']);
+  const counts = await getCounts(['customers', 'branches', 'couriers', 'packages', 'employees', 'shipment_bundles']);
   console.log(counts);
   
   return {

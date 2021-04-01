@@ -48,8 +48,8 @@ export default function Login(): JSX.Element {
             <>
               {
                 data.map((info) => 
-                  <div style={{ padding: '0px 10px' }} key={ info.name } >
-                    <InfoCard title={ info.name } content={info.value}  href={ '/admin/' + info.name } />
+                  <div style={{ padding: '0px 10px 10px' }} key={ info.name } >
+                    <InfoCard title={ info.name.replace('_', ' ') } content={info.value}  href={ '/admin/' + info.name } />
                   </div>
                 )
               }

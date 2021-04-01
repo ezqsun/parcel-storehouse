@@ -6,29 +6,23 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
   //Note: This is safe because the only parameter the user controls must be an int.
   //      if it isn't it will be NaN; therefore, sanitized.
-  let sqlWhere = '';
+  
+  //This is a trick to allow us to write less code
+  let sqlWhere = 'WHERE 1=1';
+  
   const year = Number.parseInt(req.rawRequest.headers['year'] as string);
+  const custId = Number.parseInt(req.rawRequest.headers['cid'] as string);
+
   if (year != 0 && !Number.isNaN(year)) {
     sqlWhere = `WHERE YEAR(packages.ordered_date)=${year}`
   }
 
-  const custId = Number.parseInt(req.rawRequest.headers['cid'] as string);
   if (custId != -1 && !Number.isNaN(custId)) {
-
-    if (sqlWhere) {
-      sqlWhere += ` AND packages.cid=${custId}`;
-    } else {
-      sqlWhere = `WHERE packages.cid=${custId}`
-    }
-    //
+    sqlWhere += ` AND packages.cid=${custId}`;
   }
 
   if ((req.rawRequest.headers['showbanned'] as string) === 'no') {
-    if (sqlWhere) {
-      sqlWhere += ' AND customers.is_blacklisted=0'
-    } else {
-      sqlWhere = 'WHERE customers.is_blacklisted=0'
-    }
+    sqlWhere += ' AND customers.is_blacklisted=0'
   }
 
   const packages = await query<any>(
