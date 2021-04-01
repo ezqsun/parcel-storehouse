@@ -25,6 +25,8 @@ import clsx from 'clsx';
 
 import DashbaordIcon from '@material-ui/icons/Dashboard';
 import ShipIcon from '@material-ui/icons/FlightTakeoff';
+import DealIcon from '@material-ui/icons/LocalAtm';
+import FlightLandIcon from '@material-ui/icons/FlightLand';
 
 
 const drawerWidth = 240;
@@ -107,18 +109,12 @@ export default function Header({ title, children, loading }: Props): JSX.Element
           {
             !state &&
             <>
-                <Link href="/packages">
-                  <Button color="inherit">Packages</Button>
-                </Link>
-                <Link href="/shipments">
-                  <Button color="inherit">Shipments</Button>
-                </Link>
-                <Link href="/auth/register">
-                    <Button color="inherit">Register</Button>
-                </Link>
-                <Link href="/auth/login">
-                    <Button color="inherit">Login</Button>
-                </Link>
+              <Link href="/auth/register">
+                <Button color="inherit">Register</Button>
+              </Link>
+              <Link href="/auth/login">
+                <Button color="inherit">Login</Button>
+              </Link>
             </>
           }
           {
@@ -181,10 +177,22 @@ export default function Header({ title, children, loading }: Props): JSX.Element
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
-            <Link href="/ship">
+            <Link href="/deals">
+              <ListItem button>
+                <ListItemIcon><DealIcon /></ListItemIcon>
+                <ListItemText primary="Deal finder" />
+              </ListItem>
+            </Link>
+            <Link href="/packages">
               <ListItem button>
                 <ListItemIcon><ShipIcon /></ListItemIcon>
                 <ListItemText primary="Ship" />
+              </ListItem>
+            </Link>
+            <Link href="/shipments">
+              <ListItem button>
+                <ListItemIcon><FlightLandIcon /></ListItemIcon>
+                <ListItemText primary="Shipments" />
               </ListItem>
             </Link>
           </List>

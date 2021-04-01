@@ -1,26 +1,35 @@
-
 import Head from 'next/head';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Header from '../../components/Header';
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import { UserContext } from 'components/UserState';
 
 
 export default function Home(): JSX.Element {
 
-  const classes = useStyles();
+  const [state] = React.useContext(UserContext);
+  const [data, setData] = React.useState(null);
+
+  React.useEffect(() => {
+
+    async function fetchData() {
+
+      if (!state) {
+        return;
+      }
+      const resp = await fetch('/api/profile', {
+        headers: {
+          Authorization: `${state.token_type} ${state.access_token}`
+        },
+        method: 'GET'
+      });
+
+      const data = await resp.json();
+      setData(data.result);
+    }
+    fetchData();
+
+  }, [state]);
 
   return (
     <div>
@@ -28,7 +37,8 @@ export default function Home(): JSX.Element {
         <title>CPSC 304 Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="My Profile">
+      <Header title="Profile">
+        { JSON.stringify(data) }
       </Header>
     </div>
   );

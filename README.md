@@ -14,7 +14,7 @@ Group Number: 72
 | Mellie Vo    | 48109722       | w1e2b    | hello@mellie.dev         |
 
 # CS Ship (or some name idk)
-Insert some description about the project here
+A shipping app
 
 ## Running the project
 ### Note 
@@ -24,7 +24,7 @@ This is insecure, and environment variables should utilized (in a prod app).
 If you want to use the default database, you will need to connect to the UBC VPN.
 
 If you change the database (located in lib/db.ts), you should apply all the migrations 
-(located in milestones/db_migrations).
+(located in milestones/db_migrations) OR the run the final script (milestones/final.sql).
 
 ***
 
@@ -46,6 +46,16 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Accounts
+This app requires you to login to view some of the features. These a few of the account credentials
+
+| Email                   | Password                   | Notes                                |
+|:-----------------------:|:--------------------------:|:------------------------------------:|
+| hello@mellie.dev        | 123                        | Admin Account                        |
+| smithw@hotmail.com      | agaiutans                  | Random account with packages shipped |
+| eeaqt@hotmail.com       | asgqertqfza                | Random account with nothing shipped  |
+| laurage@hotmail.com     | 14gas34                    | Banned account                       |
+
 ## Project Dependencies
 
 | Depenency name   | Usage reason/purpose                                                |
@@ -58,6 +68,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 | jest             | A unit testing library                                              |
 | serverless-mysql | The library we used to allow us to perform SQL queries              |
 | typescript       | Used to avoid mistakes in javascript                                |
+| plotly.js        | Used to visualize data (graph)                                      |
 
 # Afterthoughts
 Our auth system is based around OAuth 2.0 but is an overly simplistic, and likely insecure system. 

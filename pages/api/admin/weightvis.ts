@@ -3,10 +3,16 @@ import { query } from "@lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => requireAdmin(req, res, async (req) => {
-  const couriers = await query<any>(`SELECT * FROM couriers`);
+  const weight = await query<any>(
+    `SELECT 
+      SUM(weight) as total_weight,
+      shipping_date
+    FROM 
+      shipment_bundles
+    GROUP BY shipping_date`);
 
   return {
     statusCode: 200,
-    result: couriers,
+    result: weight,
   };
 });
