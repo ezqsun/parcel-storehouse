@@ -42,7 +42,7 @@ export default class Packages extends React.Component<unknown, Package> {
 
   private handleDeletePackage = async (e: FormEvent) => {
     e.preventDefault();
-    const pid = e.target.elements.deletePid.value;
+    const pid = (e.target as any).elements.deletePid.value;
     const deletePackage = {
       deletePid: pid,
     };
@@ -61,11 +61,11 @@ export default class Packages extends React.Component<unknown, Package> {
 
   private handlePickup = async (e: FormEvent) => {
     e.preventDefault();
-    const isPickedUp = e.target.elements.isPickedUp.value;
+    const isPickedUp = (e.target as any).elements.isPickedUp.value;
     console.log(isPickedUp);
-    console.log(`/api/packages/${e.target.elements.pickupPid.value}`);
+    console.log(`/api/packages/${(e.target as any).elements.pickupPid.value}`);
     const resp = await fetch(
-      `/api/packages/${e.target.elements.pickupPid.value}`,
+      `/api/packages/${(e.target as any).elements.pickupPid.value}`,
       {
         body: JSON.stringify({
           isPickedUp: isPickedUp,
