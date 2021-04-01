@@ -13,15 +13,32 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       branches.bid as bid,
       branches.address as branch_address,
       branches.phone_number as branch_phone
-     FROM employees
+    FROM employees
       INNER JOIN works_at
         ON employees.eid = works_at.eid
       JOIN branches as branches
         ON branches.bid = works_at.bid
-     ORDER BY eid`);
+    ORDER BY eid`);
+
+  const numProcessedByEmployee = await query<any>(
+    `SELECT
+      packages.eid, employees.name, COUNT(*)
+    FROM packages
+      INNER JOIN employees
+        ON employees.eid = packages.eid
+    GROUP BY packages.eid`);
+
+  const numProcessedMapped = numProcessedByEmployee.map(item => {
+    return {
+      eid: item.eid,
+      name: item.name,
+      numPackages: item['COUNT(*)']
+    }
+  })
 
   return {
     statusCode: 200,
-    result: employees
+    result: employees,
+    numProcessed: numProcessedMapped
   };
 });

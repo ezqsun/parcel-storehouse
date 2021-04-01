@@ -1,7 +1,6 @@
+import { UserToken } from "contexts/user-reducer";
 import { NextApiRequest } from "next";
 
-export interface AuthUserRequest {
-    name: string,
-    rawRequest: NextApiRequest,
-    role: string
+export interface AuthUserRequest extends UserToken {
+  rawRequest: NextApiRequest
 }
