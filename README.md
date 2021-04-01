@@ -10,8 +10,8 @@ Group Number: 72
 
 | Name         | Student Number | CS Alias | Preferred E-mail Address |
 |:------------:|:--------------:|:--------:|:------------------------:|
-| Mellie Vo    | 32474158       | a7f1b    | emilyzqsun@gmail.com     |
-| Emily Sun    | 48109722       | w1e2b    | hello@mellie.dev         |
+| Emily Sun    | 32474158       | a7f1b    | emilyzqsun@gmail.com     |
+| Mellie Vo    | 48109722       | w1e2b    | hello@mellie.dev         |
 
 # CS Ship (or some name idk)
 Insert some description about the project here
