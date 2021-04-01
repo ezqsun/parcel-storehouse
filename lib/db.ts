@@ -30,18 +30,18 @@ export async function querySingle<T>(queryString: string, queryParams: (string |
 }
 //*/
 
-export async function queryEmpty(queryString: string, ...queryParams: (string | number)[]): Promise<void> {
+export async function queryEmpty(queryString: string, ...queryParams: (string | number | boolean)[]): Promise<void> {
   await db.query(queryString, queryParams);
   await db.end();
 }
 
-export async function query<T>(queryString: string, ...queryParams: (string | number)[]): Promise<T[]> {
+export async function query<T>(queryString: string, ...queryParams: (string | number | boolean)[]): Promise<T[]> {
   const queryResult = await db.query<T[]>(queryString, queryParams);
   await db.end();
   return queryResult;
 }
 
-export async function querySingle<T>(queryString: string, ...queryParams: (string | number)[]): Promise<T> {
+export async function querySingle<T>(queryString: string, ...queryParams: (string | number | boolean)[]): Promise<T> {
   const queryResult = await db.query<T[]>(queryString, queryParams);
   await db.end();
 
