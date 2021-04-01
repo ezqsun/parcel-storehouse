@@ -6,7 +6,7 @@ const db = mysql({
     database: 'cpscdb',
     user: 'cpscuser',
     password: 'ul1ntaqdwfcl3rqq'
-  }
+  },
 });
 
 /*

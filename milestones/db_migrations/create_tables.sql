@@ -101,7 +101,7 @@ CREATE TABLE shipments
     `weight` FLOAT NOT NULL DEFAULT 0,
     `recipient_name` varchar(255) NOT NULL,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`)
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE
 );
 
 CREATE TABLE shipment_bundles
@@ -137,9 +137,9 @@ CREATE TABLE shipment_bundles_contains_storage
     `arrival_date` DATE NOT NULL,
     `picked_up` BOOL NOT NULL,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`),
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE,
     FOREIGN KEY (`sbid`) REFERENCES shipment_bundles(`sbid`),
-    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`)
+    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`) ON UPDATE CASCADE
 );
 
 
@@ -172,7 +172,7 @@ CREATE TABLE shipped_by
     `pid` INT NOT NULL,
     PRIMARY KEY (`eid`, `pid`),
     FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`)
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE
 );
 
 /* -------------------------------------------------------------------------
