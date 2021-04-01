@@ -77,16 +77,21 @@ VALUES
     (DEFAULT, 3, 4, 2, 3, 'SGSHO26620751', '2014-11-30', '2014-11-12'),
     (DEFAULT, 4, 4, 2, 3, 'GAJNG20671067', '2012-05-05', '2012-05-01'),  
     (DEFAULT, 4, 4, 2, 3, '3687GAODG8702', '2017-07-14', '2017-07-04'),
-    (DEFAULT, 4, 4, 2, 3, 'TGE927515NGG1', '2019-02-01', '2019-01-11');  
+    (DEFAULT, 4, 4, 2, 3, 'TGE927515NGG1', '2019-02-01', '2019-01-11'),
+    (DEFAULT, 5, 2, 4, 4, '15LAKGNL15156', '2021-03-01', '2021-02-11'),
+    (DEFAULT, 5, 3, 1, 1, '35188AKJN1KK2', '2021-02-15', '2021-02-03');  
 
     
 
 INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name)
 VALUES
-    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 12.42, 'Emily Sun'),
-    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.11, 'George Ponta'),
-    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.41, 'Leslie Jo'),
-    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.97, 'Irene Ng');
+    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 5.0, 'Emily Sun'),
+    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.0, 'George Ponta'),
+    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.0, 'Leslie Jo'),
+    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.0, 'Irene Ng'),
+    (14, '2021-03-17', '9614 E 55 Ave, Vancouver ', 5.0, 'Irene Ng'),
+    (15, '2021-02-15', '3007 8th Ave W Vancouver ', 1.0, 'Irene Ng');
+
 
 INSERT INTO shipment_bundles(sbid, cid, weight, recipient_name, destination_address, shipping_date, eid, nid)
 VALUES

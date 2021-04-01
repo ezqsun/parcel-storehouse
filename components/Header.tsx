@@ -54,6 +54,9 @@ export default function Header({ title }): JSX.Element {
                 <Link href="/packages">
                   <Button color="inherit">Packages</Button>
                 </Link>
+                <Link href="/shipments">
+                  <Button color="inherit">Shipments</Button>
+                </Link>
                 <Link href="/auth/register">
                     <Button color="inherit">Register</Button>
                 </Link>

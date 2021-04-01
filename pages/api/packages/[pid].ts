@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { query, querySingle } from '@lib/db';
 import { Package } from '@lib/models/packages';
 import { StoredPackage } from '@lib/models/stored-packages';
-import { Console } from 'node:console';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     console.log(req.query);
@@ -27,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
         try {
             const packageDetails = await querySingle<StoredPackage>("SELECT arrival_date, picked_up FROM shipment_bundles_contains_storage WHERE pid = ?", [Number(req.query.pid)]);
-            const {arrival_date, picked_up} = packageDetails;
+            const {arrival_date} = packageDetails;
 
             const insertDisposedOf = await query<StoredPackage>("INSERT IGNORE INTO shipment_bundles_to_dispose_of (arrival_date, picked_up) VALUES (?, ?)",[JSON.stringify(arrival_date).substring(1,11), newPickedUp]);
             // console.log('successful insert ignore');
