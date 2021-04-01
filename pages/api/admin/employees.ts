@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     FROM employees
       INNER JOIN works_at
         ON employees.eid = works_at.eid
-      JOIN branches as branches
+      INNER JOIN branches as branches
         ON branches.bid = works_at.bid
     ORDER BY eid`);
 

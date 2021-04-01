@@ -7,7 +7,7 @@ import { UserContext } from 'components/UserState';
 
 export default function Login(): JSX.Element {
 
-  const [ state, dispatch ] = React.useContext(UserContext);
+  const [state, dispatch] = React.useContext(UserContext);
 
   return (
     <>
