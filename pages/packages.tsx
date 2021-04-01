@@ -5,7 +5,6 @@ import React, { FormEvent } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import { Courier } from "../lib/models/couriers";
 import { Package } from "../lib/models/packages";
-import { BookOutlined, StarRateRounded } from "@material-ui/icons";
 
 export default class Packages extends React.Component<{}, Package> {
   public state = {
@@ -90,184 +89,185 @@ export default class Packages extends React.Component<{}, Package> {
           <title>CPSC 304 Project</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Header title="Packages" />
-        <div style={{ padding: "20px" }} />
-        <Grid container>
-          <Grid item xs={4}>
-            <Grid
-              container
-              style={{
-                backgroundColor: "white",
-                height: "calc(100vh - 64px)",
-              }}
-              justify="flex-start"
-              alignContent="center"
-              direction="column"
-            >
-              <h2>Add new package</h2>
-              <form
-                style={{ width: "60%" }}
-                onSubmit={this.handleInsertPackage}
+        <Header title="Admin" loading={false}>
+          <div style={{ padding: "20px" }} />
+          <Grid container>
+            <Grid item xs={4}>
+              <Grid
+                container
+                style={{
+                  backgroundColor: "white",
+                  height: "calc(100vh - 64px)",
+                }}
+                justify="flex-start"
+                alignContent="center"
+                direction="column"
               >
-                <TextField
-                  id="cid"
-                  name="cid"
-                  label="Customer name"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-                <TextField
-                  id="tracking_number"
-                  name="tracking_number"
-                  label="Tracking Number"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="ordered_date"
-                  name="ordered_date"
-                  label="Ordered Date"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="processed_date"
-                  name="processed_date"
-                  label="Processed Date"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="nid"
-                  name="nid"
-                  label="Courier"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="bid"
-                  name="bid"
-                  label="Branch"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="eid"
-                  name="eid"
-                  label="Employee"
-                  onChange={this.onChange}
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "10px" }} />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
+                <h2>Add new package</h2>
+                <form
+                  style={{ width: "60%" }}
+                  onSubmit={this.handleInsertPackage}
                 >
-                  Add
-                </Button>
-              </form>
+                  <TextField
+                    id="cid"
+                    name="cid"
+                    label="Customer name"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+                  <TextField
+                    id="tracking_number"
+                    name="tracking_number"
+                    label="Tracking Number"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="ordered_date"
+                    name="ordered_date"
+                    label="Ordered Date"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="processed_date"
+                    name="processed_date"
+                    label="Processed Date"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="nid"
+                    name="nid"
+                    label="Courier"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="bid"
+                    name="bid"
+                    label="Branch"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="eid"
+                    name="eid"
+                    label="Employee"
+                    onChange={this.onChange}
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "10px" }} />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Add
+                  </Button>
+                </form>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={4}>
-            <Grid
-              container
-              style={{
-                backgroundColor: "white",
-                height: "calc(100vh - 64px)",
-              }}
-              justify="flex-start"
-              alignContent="center"
-              direction="column"
-            >
-              <h2>Delete existing package</h2>
-              <form
-                style={{ width: "60%" }}
-                onSubmit={this.handleDeletePackage}
+            <Grid item xs={4}>
+              <Grid
+                container
+                style={{
+                  backgroundColor: "white",
+                  height: "calc(100vh - 64px)",
+                }}
+                justify="flex-start"
+                alignContent="center"
+                direction="column"
               >
-                <TextField
-                  id="deletePid"
-                  name="deletePid"
-                  label="PID"
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "10px" }} />
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
+                <h2>Delete existing package</h2>
+                <form
+                  style={{ width: "60%" }}
+                  onSubmit={this.handleDeletePackage}
                 >
-                  Delete
-                </Button>
-              </form>
+                  <TextField
+                    id="deletePid"
+                    name="deletePid"
+                    label="PID"
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "10px" }} />
+
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Delete
+                  </Button>
+                </form>
+              </Grid>
+            </Grid>
+            <Grid item xs={4}>
+              <Grid
+                container
+                style={{
+                  backgroundColor: "white",
+                  height: "calc(100vh - 64px)",
+                }}
+                justify="flex-start"
+                alignContent="center"
+                direction="column"
+              >
+                <h2>Update pick-up status</h2>
+                <form style={{ width: "60%" }} onSubmit={this.handlePickup}>
+                  <TextField
+                    id="pickupPid"
+                    name="pickupPid"
+                    label="PID"
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+
+                  <TextField
+                    id="isPickedUp"
+                    name="isPickedUp"
+                    label="Picked up"
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+
+                  <div style={{ padding: "10px" }} />
+
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Update
+                  </Button>
+                </form>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Grid
-              container
-              style={{
-                backgroundColor: "white",
-                height: "calc(100vh - 64px)",
-              }}
-              justify="flex-start"
-              alignContent="center"
-              direction="column"
-            >
-              <h2>Update pick-up status</h2>
-              <form style={{ width: "60%" }} onSubmit={this.handlePickup}>
-                <TextField
-                  id="pickupPid"
-                  name="pickupPid"
-                  label="PID"
-                  variant="outlined"
-                  fullWidth={true}
-                />
-                <div style={{ padding: "5px" }} />
-
-                <TextField
-                  id="isPickedUp"
-                  name="isPickedUp"
-                  label="Picked up"
-                  variant="outlined"
-                  fullWidth={true}
-                />
-
-                <div style={{ padding: "10px" }} />
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Update
-                </Button>
-              </form>
-            </Grid>
-          </Grid>
-        </Grid>
+        </Header>
       </>
     );
   }

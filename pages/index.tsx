@@ -19,16 +19,17 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Home(): JSX.Element {
-  
+
   const classes = useStyles();
-  
+
   return (
     <div>
       <Head>
         <title>CPSC 304 Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="CPSC 304"/>
+      <Header title="CPSC 304">
+      </Header>
     </div>
   );
 }

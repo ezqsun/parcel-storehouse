@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                     FROM shipments s2
                     GROUP BY s2.recipient_name)a CROSS JOIN (SELECT AVG(s1.weight) AS overall_avg_weight
                                                         FROM shipments s1)b
-            WHERE a.avg_recipient_weight = b.overall_avg_weight;`, []);
+            WHERE a.avg_recipient_weight = b.overall_avg_weight;`, ...[]);
             console.log(ret);
 
             return res.send(ret);

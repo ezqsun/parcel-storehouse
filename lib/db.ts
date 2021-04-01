@@ -12,7 +12,8 @@ const db = mysql({
 /*
  * Queries the database
  */
-export async function query<T>(queryString: string, queryParams: (string | number | boolean)[] | string | number): Promise<T[]> {
+/*
+export async function query<T>(queryString: string, queryParams: (string | number)[] | string | number): Promise<T[]> {
   const queryResult = await db.query<T[]>(queryString, queryParams);
   await db.end();
   return queryResult;
@@ -27,9 +28,20 @@ export async function querySingle<T>(queryString: string, queryParams: (string |
   }
   throw new Error(`Error with query. Query returned ${queryResult.length} items instead of the desired one item.`);
 }
+//*/
 
-export async function queryAll<T>(queryString:string): Promise<T[]>{
-  const queryResult = await db.query<T[]>(queryString);
+export async function query<T>(queryString: string, ...queryParams: (string | number | boolean)[]): Promise<T[]> {
+  const queryResult = await db.query<T[]>(queryString, queryParams);
   await db.end();
   return queryResult;
+}
+
+export async function querySingle<T>(queryString: string, ...queryParams: (string | number)[]): Promise<T> {
+  const queryResult = await db.query<T[]>(queryString, queryParams);
+  await db.end();
+
+  if (queryResult.length === 1) {
+    return queryResult[0];
+  }
+  throw new Error(`Error with query. Query returned ${queryResult.length} items instead of the desired one item.`);
 }

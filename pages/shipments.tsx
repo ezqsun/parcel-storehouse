@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import { UserContext } from "components/UserState";
 import React, { FormEvent } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
-import { BookOutlined, StarRateRounded } from "@material-ui/icons";
 
 interface Data {
   recipient_name: string;
@@ -56,7 +55,7 @@ export default class Shipments extends React.Component<{}> {
           <title>CPSC 304 Project</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Header title="Shipment Packages" />
+        <Header title="Admin" loading={false} >
         <Grid
           container
           style={{
@@ -102,6 +101,7 @@ export default class Shipments extends React.Component<{}> {
             </Grid>
           </Grid>
         </Grid>
+        </Header>
       </>
     );
   }

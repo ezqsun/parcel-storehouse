@@ -3,7 +3,7 @@ import { query, querySingle } from '@lib/db';
 import { Package } from '@lib/models/packages';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-    console.log(req.method);
+
     if ("cid" in req.body && "bid" in req.body && "eid" in req.body && "nid" in req.body) {
 
         try {
@@ -16,7 +16,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
             console.log(values);
 
             const ret = await query<Package>("INSERT INTO packages (cid, bid, eid, nid, tracking_number, processed_date, ordered_date) VALUES (?,?,?,?,?,?,?)",
-                values);
+                ...values);
+            //   const ret = await query<Package>("INSERT INTO packages (cid, bid, eid, nid, tracking_number, processed_date, ordered_date) VALUES (?,?,?,?,?,?,?)",
+            //     ...values);
 
 
             return res.send(ret);
@@ -30,11 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     } else {
 
         res.statusCode = 400;
-        return res.json({ message: "Missing required body content to process request" });
+        res.json({ message: "Missing required body content to process request" });
     }
-
-
-}
-
-
+};
 
