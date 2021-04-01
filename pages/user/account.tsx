@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Header from '../../components/Header';
 import { UserContext } from 'components/UserState';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
 export default function Home(): JSX.Element {
 
@@ -63,6 +63,17 @@ export default function Home(): JSX.Element {
                 </TableBody>
               </Table>
             </TableContainer>
+          </>
+        }
+        {
+          data && data.length === 0 &&
+          <>
+            <br />
+            <br />
+            <br />
+            <p style={{ textAlign: 'center' }}>
+              It appears that you do not have any shipped goods
+            </p>
           </>
         }
       </Header>

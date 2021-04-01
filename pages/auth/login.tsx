@@ -10,6 +10,7 @@ import { AuthUser } from 'contexts/user-reducer';
 export default function Login(): JSX.Element {
 
   const [state, dispatch] = React.useContext(UserContext);
+  const [error, setError] = React.useState('');
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {
@@ -34,7 +35,7 @@ export default function Login(): JSX.Element {
       });
       router.push('/');
     } else {
-
+      setError(data.error);
     }
   };
 
@@ -52,6 +53,15 @@ export default function Login(): JSX.Element {
         <Grid container>
           <Grid item xs={4} >
             <Grid container style={{ backgroundColor: 'white', height: '100vh' }} justify="center" alignContent="center" direction="column">
+              {
+                error && error != '' &&
+                <div>
+                  <p>
+                    {error}
+                  </p>
+                  <br />
+                </div>
+              }
 
               <form style={{ width: '60%' }} onSubmit={handleLogin}>
                 <TextField id="email" name="email" label="Email" variant="outlined" fullWidth={true} />
