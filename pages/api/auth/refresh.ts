@@ -3,60 +3,61 @@ import { sign } from '@lib/auth/createJwt';
 import { querySingle } from '@lib/db';
 import { createHash } from 'crypto';
 import { Customer } from '@lib/models/customers';
+import { verify } from '@lib/auth/verifyJwt';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-  if ("username" in req.headers && "password" in req.headers) {
+  if ('refresh_token' in req.headers) {
     //Query database for password
     try {
+      const verifyRes = await verify(req.headers['refresh_token'] as string);
 
-      const user = await querySingle<Customer>("SELECT * FROM customers WHERE email = ?", req.headers["username"] as string);
+      if (verifyRes) {
 
-      //Hash the provided password - note if this was prod, we would also want to salt and pepper but that isn't done here
-      const hash = createHash('sha256');
-      const passBuf = Buffer.from(req.headers["password"] as string);
-      const passHash = hash.update(passBuf).digest('hex');
-
-      if (passHash === user.password) {
-
-        if (user.is_blacklisted) {
-
-          return res.status(401).json({ error: 'Given user is blacklisted from accessing the service' });
-        }
+        const refresh = JSON.parse(verifyRes.payload.toString());
 
         const dateNow = Math.floor(Date.now() / 1000);
+
+        if (refresh.exp <= dateNow) {
+          return res.status(401).json({ error: 'Expired refresh_token provided to api.' });
+        }
+
+        const user = await querySingle<Customer>("SELECT * FROM customers WHERE cid = ?", refresh.sub);
+
+      
+
+        if (user.is_blacklisted) {
+  
+          return res.status(401).json({ error: 'Given user is blacklisted from accessing the service' });
+        }
+        
         const payload_access = {
           exp: dateNow + 3600,
           iat: dateNow,
           sub: user.cid,
           name: user.name,
           registration_date: Math.floor(user.registration_date.getTime() / 1000),
-          role: req.headers["username"] === 'hello@mellie.dev' ? 'admin' : 'user'
+          role: user.email === 'hello@mellie.dev' ? 'admin' : 'user'
         };
-
-        //Note: This is not how a refresh token should be made, because we cannot revoke it
-        const payload_refresh = {
-          exp: dateNow + 2678400,
-          iat: dateNow,
-          sub: user.cid
-        };
-
+  
         const access = await sign(payload_access);
-        const refresh = await sign(payload_refresh);
-
+  
         return res.send({
           token_type: 'Bearer',
           expires_in: 3600,
           expires_on: dateNow + 3600,
           access_token: access,
-          refresh_token: refresh
+          refresh_token: req.headers['refresh_token']
         });
       }
 
+      return res.status(401).json({ error: 'Bad refresh_token provided to api.' });
+
     } catch (error: unknown) {
+      console.log(error)
       //Ignored
     }
 
-    return res.status(401).json({ error: 'A user with that email and password was not found' });
+    return res.status(401).json({ error: 'Failed to refresh user token. It is unknown why this error is happening so don\'t ask me.' });
   } else {
 
     res.statusCode = 400;

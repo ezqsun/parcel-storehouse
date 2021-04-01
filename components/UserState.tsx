@@ -29,6 +29,48 @@ export const UserProvider = ({ children }) => {
     });
   }, []);
 
+  useEffect(() => {
+
+    if (state) {
+
+      if (state.expires_on <= Math.floor(Date.now() / 1000) + 1800) {
+
+        updateAuth();
+      } else {
+
+        setTimeout(() => updateAuth(), 1800000);
+      }
+    }
+
+    async function updateAuth() {
+
+      console.log('getting new token');
+
+      if (!state) {
+        return;
+      }
+
+      const resp = await fetch('/api/auth/refresh', {
+        body: '{}',
+        headers: {
+          'refresh_token': state.refresh_token
+        },
+        method: 'POST'
+      });
+
+      const data = await resp.json();
+      console.log({ resp, data });
+
+      if (resp.status === 200) {
+        dispatch({
+          type: 'UPDATE_AUTH',
+          authResult: data
+        });
+      }
+    }
+
+  }, [state])
+
   return (
     <UserContext.Provider value={[state, dispatch]}>
       { children}

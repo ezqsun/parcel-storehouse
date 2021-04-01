@@ -19,7 +19,7 @@ export interface UserToken {
 }
 
 export interface AuthReducer {
-  type: 'LOGIN' | 'LOGOUT' | 'SET_AUTH',
+  type: 'LOGIN' | 'LOGOUT' | 'SET_AUTH' | 'UPDATE_AUTH',
   authResult?: AuthUser
 }
 
@@ -35,6 +35,7 @@ if (process.browser) {
 }
 
 export const reducer = (state, action: AuthReducer) => {
+
   switch (action.type) {
     case 'LOGIN':
       db.user.put(action.authResult, 0);
@@ -46,6 +47,13 @@ export const reducer = (state, action: AuthReducer) => {
       db.user.clear();
       return null;
     case 'SET_AUTH':
+      return {
+        ...action.authResult,
+        user_data: decodeUserToken(action.authResult.access_token)
+      };
+    case 'UPDATE_AUTH':
+      db.user.clear();
+      db.user.put(action.authResult, 0);
       return {
         ...action.authResult,
         user_data: decodeUserToken(action.authResult.access_token)

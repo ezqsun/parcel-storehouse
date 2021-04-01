@@ -19,7 +19,7 @@ export default function Login(): JSX.Element {
         return;
       }
 
-      const resp = await fetch('/api/admin/dashboard', {
+      const resp = await fetch('/api/admin/customers', {
         headers: {
           Authorization: `${state.token_type} ${state.access_token}`
         },
@@ -41,19 +41,10 @@ export default function Login(): JSX.Element {
         <title>CPSC 304 Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="Admin">
+      <Header title="Admin (Customers)" loading={!data}>
         <Grid container>
           {
-            data && 
-            <>
-              {
-                data.map((info) => 
-                  <div style={{ padding: '0px 10px' }} key={ info.name }>
-                    <InfoCard title={ info.name } content={info.value}  href={ '/admin/' + info.name } />
-                  </div>
-                )
-              }
-            </>
+            
           }
         </Grid>
       </Header>
