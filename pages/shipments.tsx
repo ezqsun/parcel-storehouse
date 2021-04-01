@@ -6,7 +6,7 @@ import { Button, Grid, TextField } from "@material-ui/core";
 import { BookOutlined, StarRateRounded } from "@material-ui/icons";
 
 interface Data {
-  recipient_name: string,
+  recipient_name: string;
 }
 
 export default class Shipments extends React.Component<{}> {
@@ -26,12 +26,18 @@ export default class Shipments extends React.Component<{}> {
 
   private printResults = (data: Array<Data>) => {
     const paragraphNode = document.createElement("P");
-    const textNodeNoResults = document.createTextNode(` No recipients receive packages with an average weight equal to the
-    overall average weight of all shipments`);
+
 
     if (!data.length) {
+      const textNodeNoResults = document.createTextNode(` No recipients receive packages with an average weight equal to the
+      overall average weight of all shipments`);
       paragraphNode.appendChild(textNodeNoResults);
     } else {
+      const descriptionNode = document.createTextNode(`The following recipients receive packages with an average weight equal to the
+      overall average weight of all shipments:`);
+      paragraphNode.appendChild(descriptionNode);
+      paragraphNode.appendChild(document.createElement("P"));
+      
       for (let i = 0; i < data.length; i++) {
         let node = document.createTextNode(`${data[i].recipient_name}`);
         paragraphNode.appendChild(node);
@@ -41,8 +47,7 @@ export default class Shipments extends React.Component<{}> {
 
     document.getElementById("print_results").appendChild(paragraphNode);
     document.getElementById("print_results").style.display = "block";
-
-  }
+  };
 
   public render() {
     return (
