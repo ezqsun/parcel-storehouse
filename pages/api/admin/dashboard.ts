@@ -19,5 +19,8 @@ async function getCounts(tableNames: string[]) {
   const queries = tableNames.map(tableName => querySingle<any>(`SELECT COUNT(*) FROM ${tableName}`));
   const countsTemp = (await Promise.all(queries));
   const counts = countsTemp.map(val => val['COUNT(*)'] as Number);
-  return counts.map((val, idx) => ({ [tableNames[idx]]: val }));
+  return counts.map((val, idx) => ({ 
+    name: tableNames[idx],
+    value: val 
+  }));
 }

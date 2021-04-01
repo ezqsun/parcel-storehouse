@@ -5,6 +5,7 @@ import {
   Divider,
   Drawer,
   IconButton,
+  LinearProgress,
   List,
   ListItem,
   ListItemIcon,
@@ -70,8 +71,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface Props {
+  title: string,
+  children: any,
+  loading?: boolean
+}
 
-export default function Header({ title, children }): JSX.Element {
+
+export default function Header({ title, children, loading }: Props): JSX.Element {
 
   const classes = useStyles();
   const [state, dispatch] = React.useContext(UserContext);
@@ -86,8 +93,6 @@ export default function Header({ title, children }): JSX.Element {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  console.log(state);
 
   return (
     <>
@@ -135,6 +140,10 @@ export default function Header({ title, children }): JSX.Element {
           }
         </Toolbar>
       </AppBar>
+      {
+        loading && 
+        <div style={{ marginTop: '64px' }}><LinearProgress color="secondary"/></div>
+      }
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -175,7 +184,7 @@ export default function Header({ title, children }): JSX.Element {
         </div>
       </Drawer>
 
-      <main
+      <main style={{ marginTop: '64px' }}
         className={clsx(classes.content, {
           [classes.contentShift]: !drawerOpen,
         })}

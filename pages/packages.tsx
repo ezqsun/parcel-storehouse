@@ -53,7 +53,7 @@ export default class Packages extends React.Component<{}, Package> {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <Header title="Admin">
+        <Header title="Admin" loading={false}>
           <Grid container>
             <Grid item xs={4}>
               <Grid

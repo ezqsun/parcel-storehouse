@@ -18,9 +18,6 @@ export default function Login(): JSX.Element {
         <title>CPSC 304 Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div  style={{zIndex: -1, position: 'absolute', height: '100vh', width: '100vw'}}>
-        <Image src="/stock-img.jpg" layout="fill"/>
-      </div>
       <Header title="Users">
       </Header>
       <Grid container>

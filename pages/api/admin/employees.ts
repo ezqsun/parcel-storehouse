@@ -22,23 +22,15 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
   const numProcessedByEmployee = await query<any>(
     `SELECT
-      packages.eid, employees.name, COUNT(*)
+      packages.eid, employees.name, COUNT(*) AS numPackages
     FROM packages
       INNER JOIN employees
         ON employees.eid = packages.eid
     GROUP BY packages.eid`);
 
-  const numProcessedMapped = numProcessedByEmployee.map(item => {
-    return {
-      eid: item.eid,
-      name: item.name,
-      numPackages: item['COUNT(*)']
-    }
-  })
-
   return {
     statusCode: 200,
     result: employees,
-    numProcessed: numProcessedMapped
+    numProcessed: numProcessedByEmployee
   };
 });
