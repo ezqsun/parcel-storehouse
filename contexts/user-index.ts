@@ -6,7 +6,7 @@ import { AuthUser } from './user-reducer';
 export class UserDatabase extends Dexie {
     user: Dexie.Table<AuthUser, number>;
 
-    constructor (databaseName) {
+    constructor (databaseName: string) {
         super(databaseName);
         this.version(1).stores({
             user: 'access_token,expires_in,expires_on,refresh_token,token_type'

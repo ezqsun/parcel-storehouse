@@ -34,7 +34,7 @@ if (process.browser) {
   });
 }
 
-export const reducer = (state, action: AuthReducer) => {
+export const reducer = (_: AuthUser, action: AuthReducer): AuthUser => {
 
   switch (action.type) {
     case 'LOGIN':
@@ -43,9 +43,6 @@ export const reducer = (state, action: AuthReducer) => {
         ...action.authResult,
         user_data: decodeUserToken(action.authResult.access_token)
       };
-    case 'LOGOUT':
-      db.user.clear();
-      return null;
     case 'SET_AUTH':
       return {
         ...action.authResult,
@@ -58,6 +55,10 @@ export const reducer = (state, action: AuthReducer) => {
         ...action.authResult,
         user_data: decodeUserToken(action.authResult.access_token)
       };
+    case 'LOGOUT':
+    default:
+      db.user.clear();
+      return null;
   }
 };
 

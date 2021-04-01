@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   title: string,
-  children: any,
+  children: React.ReactNode,
   loading?: boolean
 }
 
@@ -98,7 +98,7 @@ export default function Header({ title, children, loading }: Props): JSX.Element
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={(e) => setDrawerState(!drawerOpen)}>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawerState(!drawerOpen)}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -135,8 +135,12 @@ export default function Header({ title, children, loading }: Props): JSX.Element
                 onClose={handleClose}
               >
                 <MenuItem style={{ width: '200px' }} disabled>Hi {state.user_data.name}!</MenuItem>
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <Link href="/user/profile">
+                  <MenuItem>Profile</MenuItem>
+                </Link>
+                <Link href="/user/account">
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                </Link>
                 <MenuItem onClick={() => dispatch({ type: 'LOGOUT' })}>Logout</MenuItem>
               </Menu>
             </>

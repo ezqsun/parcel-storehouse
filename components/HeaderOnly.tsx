@@ -18,21 +18,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+interface Props {
+  title: string;
+}
 
-export default function Header({ title }): JSX.Element {
+
+export default function Header({ title }: Props): JSX.Element {
 
   const classes = useStyles();
-  const [state, dispatch] = React.useContext(UserContext);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [state] = React.useContext(UserContext);
 
   console.log(state);
 

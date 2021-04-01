@@ -1,12 +1,10 @@
 import Head from "next/head";
 import Header from "../components/Header";
-import { UserContext } from "components/UserState";
 import React, { FormEvent } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
-import { Courier } from "../lib/models/couriers";
-import { Package } from "../lib/models/packages";
+import { Package } from "@lib/models/packages";
 
-export default class Packages extends React.Component<{}, Package> {
+export default class Packages extends React.Component<unknown, Package> {
   public state = {
     cid: null,
     bid: null,
@@ -82,7 +80,7 @@ export default class Packages extends React.Component<{}, Package> {
 
   // //load couriers in dropdown
   // let couriers = await query<Couriers>("SELECT name FROM couriers", [])
-  public render() {
+  public render(): JSX.Element {
     return (
       <>
         <Head>
