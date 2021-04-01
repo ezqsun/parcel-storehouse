@@ -94,14 +94,14 @@ VALUES
 
     
 
-INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name)
+INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name, eid)
 VALUES
-    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 5.0, 'Emily Sun'),
-    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.0, 'George Ponta'),
-    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.0, 'Leslie Jo'),
-    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.0, 'Irene Ng'),
-    (14, '2021-03-17', '9614 E 55 Ave, Vancouver ', 5.0, 'Irene Ng'),
-    (15, '2021-02-15', '3007 8th Ave W Vancouver ', 1.0, 'Irene Ng');
+    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 5.0, 'Emily Sun',1),
+    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.0, 'George Ponta', 1),
+    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.0, 'Leslie Jo', 3),
+    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.0, 'Irene Ng', 2),
+    (14, '2021-03-17', '9614 E 55 Ave, Vancouver ', 5.0, 'Irene Ng', 2),
+    (15, '2021-02-15', '3007 8th Ave W Vancouver ', 1.0, 'Irene Ng', 3);
 
 
 INSERT INTO shipment_bundles(sbid, cid, weight, recipient_name, destination_address, shipping_date, eid, nid)
@@ -157,13 +157,6 @@ VALUES
     (4,4),
     (5,2),
     (6,1);
-
-INSERT INTO shipped_by(eid, pid)
-VALUES
-    (1,1),
-    (1,2),
-    (3,3),
-    (2,4);
 
 
 
