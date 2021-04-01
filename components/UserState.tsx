@@ -4,17 +4,23 @@ import { UserDatabase } from "contexts/user-index";
 
 export const UserContext = React.createContext<[AuthUser, React.Dispatch<AuthReducer>]>(null);
 
+let db: UserDatabase;
+
 if (process.browser) {
 
-  var db = new UserDatabase('userDb');
+  db = new UserDatabase('userDb');
 
   db.open().catch(err => {
     console.error(`Open failed: ${err.stack}`);
   });
 }
 
+interface Props {
+  children: React.ReactNode;
+}
 
-export const UserProvider = ({ children }) => {
+
+export const UserProvider = ({ children }: Props): JSX.Element => {
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
@@ -69,7 +75,7 @@ export const UserProvider = ({ children }) => {
       }
     }
 
-  }, [state])
+  }, [state]);
 
   return (
     <UserContext.Provider value={[state, dispatch]}>
