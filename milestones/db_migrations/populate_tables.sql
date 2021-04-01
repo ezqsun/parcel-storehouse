@@ -109,7 +109,7 @@ VALUES
     (DEFAULT, 4, 6.74, 'Nancy Drew', '3007 8th Ave W Vancouver', '2021-02-28', 1, 1),
     (DEFAULT, 4, 1.47, 'Daniel Can', '9614 E 55 Ave, Vancouver', '2020-12-09', 2, 2),
     (DEFAULT, 5, 16.72, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-11-09', 2, 1),
-    (DEFAULT, 3, 8.98, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-12-09', 3, 1)
+    (DEFAULT, 3, 8.98, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-12-09', 3, 1),
     (DEFAULT, 1, 5.69, 'Cristal Schoen', '3112 Demarco Neck Uptonbury', '2020-10-26', 1, 1),
     (DEFAULT, 2, 61.24, 'Royal Schowalter', '054 Wilburn Causeway East Pattietown', '2012-9-21', 2, 2),
     (DEFAULT, 3, 90.21, 'Duncan Hansen', '9792 Krajcik Forks Hettingerfurt', '2018-7-22', 3, 3),

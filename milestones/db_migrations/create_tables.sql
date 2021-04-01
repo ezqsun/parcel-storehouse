@@ -37,7 +37,7 @@ CREATE TABLE works_at
 	`eid` INT NOT NULL,
     `bid` INT NOT NULL,
     PRIMARY KEY (`eid`, `bid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE CASCADE,
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE packages
     FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
     FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 );
 
 
@@ -103,7 +103,7 @@ CREATE TABLE shipments
     `eid` INT NULL,
     PRIMARY KEY (`pid`),
     FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE,
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 );
 
 CREATE TABLE shipment_bundles
@@ -119,7 +119,7 @@ CREATE TABLE shipment_bundles
     PRIMARY KEY (`sbid`),
     FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
     FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 
 );
 
