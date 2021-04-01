@@ -19,7 +19,7 @@ export default function Login(): JSX.Element {
         return;
       }
 
-      const resp = await fetch('/api/admin/customers', {
+      const resp = await fetch('/api/admin/packages', {
         headers: {
           Authorization: `${state.token_type} ${state.access_token}`
         },
@@ -55,31 +55,29 @@ export default function Login(): JSX.Element {
                 <Table aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Customer ID (cid)</TableCell>
-                      <TableCell align="right">Name</TableCell>
-                      <TableCell align="right">Email</TableCell>
-                      <TableCell align="right">Phone Number</TableCell>
-                      <TableCell align="right">Address</TableCell>
-                      <TableCell align="right">Points</TableCell>
-                      <TableCell align="right">Registration Date</TableCell>
-                      <TableCell align="right">Is banned</TableCell>
-                      <TableCell align="right"># of shipped packages</TableCell>
+                      <TableCell>Package ID (pid)</TableCell>
+                      <TableCell>Customer ID (pid)</TableCell>
+                      <TableCell align="right">customer_name</TableCell>
+                      <TableCell align="right">processed_date</TableCell>
+                      <TableCell align="right">tracking_number</TableCell>
+                      <TableCell align="right">ordered_date</TableCell>
+                      <TableCell align="right">courier_name</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {data.map((row) => (
                       <TableRow key={row.name}>
                         <TableCell component="th" scope="row">
+                          {row.pid}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
                           {row.cid}
                         </TableCell>
-                        <TableCell align="right">{row.name}</TableCell>
-                        <TableCell align="right">{row.email}</TableCell>
-                        <TableCell align="right">{row.phone_number}</TableCell>
-                        <TableCell align="right">{row.address}</TableCell>
-                        <TableCell align="right">{row.points}</TableCell>
-                        <TableCell align="right">{row.registration_date}</TableCell>
-                        <TableCell align="right">{row.is_blacklisted ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="right">{row.shipped_packages}</TableCell>
+                        <TableCell align="right">{row.customer_name}</TableCell>
+                        <TableCell align="right">{row.processed_date}</TableCell>
+                        <TableCell align="right">{row.tracking_number}</TableCell>
+                        <TableCell align="right">{row.ordered_date}</TableCell>
+                        <TableCell align="right">{row.courier_name}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

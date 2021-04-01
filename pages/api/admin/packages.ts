@@ -8,6 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       packages.pid,
       packages.tracking_number,
       packages.processed_date,
+      packages.cid,
       packages.ordered_date,
       couriers.name AS courier_name,
       customers.name AS customer_name

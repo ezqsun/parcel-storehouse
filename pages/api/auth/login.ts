@@ -5,6 +5,17 @@ import { createHash } from 'crypto';
 import { Customer } from '@lib/models/customers';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+
+  if (req.method === 'OPTIONS') {
+
+    return res.status(200).json({ status: 'allowed' });
+  }
+
+  if (req.method !== 'POST') {
+
+    return res.status(400).json({ error: 'Invalid request.' });
+  }
+
   if ("username" in req.headers && "password" in req.headers) {
     //Query database for password
     try {
@@ -30,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
           sub: user.cid,
           name: user.name,
           registration_date: Math.floor(user.registration_date.getTime() / 1000),
-          role: req.headers["username"] === 'hello@mellie.dev' ? 'admin' : 'user'
+          role: user.email === 'hello@mellie.dev' ? 'admin' : 'user'
         };
 
         //Note: This is not how a refresh token should be made, because we cannot revoke it
