@@ -58,6 +58,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 | jest             | A unit testing library                                              |
 | serverless-mysql | The library we used to allow us to perform SQL queries              |
 | typescript       | Used to avoid mistakes in javascript                                |
+| plotly.js        | Used to visualize data (graph)                                      |
 
 # Afterthoughts
 Our auth system is based around OAuth 2.0 but is an overly simplistic, and likely insecure system. 

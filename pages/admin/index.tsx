@@ -1,15 +1,14 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import React from 'react';
-import { Grid, LinearProgress } from '@material-ui/core';
+import { Grid, LinearProgress, NoSsr } from '@material-ui/core';
 import Image from 'next/image';
 import { UserContext } from 'components/UserState';
 import InfoCard from 'components/InfoCard';
-
 export default function Login(): JSX.Element {
 
   const [state] = React.useContext(UserContext);
-  const [data, setData] = React.useState(null)
+  const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
 
@@ -27,8 +26,9 @@ export default function Login(): JSX.Element {
       });
 
       const data = await resp.json();
-      
+
       setData(data.result);
+
     }
 
     fetchData();
@@ -44,12 +44,12 @@ export default function Login(): JSX.Element {
       <Header title="Admin" loading={!data}>
         <Grid container>
           {
-            data && 
+            data &&
             <>
               {
-                data.map((info) => 
-                  <div style={{ padding: '0px 10px 10px' }} key={ info.name } >
-                    <InfoCard title={ info.name.replace('_', ' ') } content={info.value}  href={ '/admin/' + info.name } />
+                data.map((info) =>
+                  <div style={{ padding: '0px 10px 10px' }} key={info.name} >
+                    <InfoCard title={info.name.replace('_', ' ')} content={info.value} href={'/admin/' + info.name} />
                   </div>
                 )
               }
