@@ -51,7 +51,16 @@ async function updateUserData(cus: Customer, cid: number) {
 }
 
 async function getUserData(cid: number) {
-  const user = await querySingle<Customer>("SELECT address, email, name, points, registration_date, phone_number FROM customers WHERE cid = ?", cid);
+  const user = await querySingle<Customer>(
+    `SELECT
+      address,
+      email,
+      name,
+      points,
+      registration_date,
+      phone_number
+    FROM customers
+    WHERE cid = ?`, cid);
 
   delete user.password;
   return {

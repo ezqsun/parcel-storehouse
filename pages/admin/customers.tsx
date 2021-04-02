@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import React from 'react';
-import { CircularProgress, Grid, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Box, CircularProgress, Grid, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 import Image from 'next/image';
 import { UserContext } from 'components/UserState';
 import InfoCard from 'components/InfoCard';
@@ -10,6 +10,7 @@ export default function Login(): JSX.Element {
 
   const [state] = React.useContext(UserContext);
   const [data, setData] = React.useState(null)
+  const [filter, setFilter] = React.useState('');
 
   React.useEffect(() => {
 
@@ -21,7 +22,8 @@ export default function Login(): JSX.Element {
 
       const resp = await fetch('/api/admin/customers', {
         headers: {
-          Authorization: `${state.token_type} ${state.access_token}`
+          Authorization: `${state.token_type} ${state.access_token}`,
+          points: filter
         },
         method: 'GET'
       });
@@ -33,7 +35,7 @@ export default function Login(): JSX.Element {
 
     fetchData();
 
-  }, [state]);
+  }, [state, filter]);
 
   return (
     <>
@@ -46,9 +48,19 @@ export default function Login(): JSX.Element {
           {
             data &&
             <>
-              <p>
-                Note: To add a new customer, register a new account
-              </p>
+              <Grid style={{ width: '100%' }}>
+                <p>
+                  Note: To add a new customer, register a new account
+                </p>
+                <Box style={{ display: 'flex' }}>
+                  <TextField
+                      label="Filter by number of points (points >= value)"
+                      variant="outlined"
+                      style={{ flex: 1 }}
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)} />
+                </Box>
+              </Grid>
               <TableContainer>
                 <Table aria-label="simple table">
                   <TableHead>
