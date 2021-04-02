@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import React from 'react';
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { FormControl, Grid, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import Image from 'next/image';
 import { UserContext } from 'components/UserState';
 import dynamic from 'next/dynamic'
@@ -16,6 +16,8 @@ export default function Login(): JSX.Element {
   const [state] = React.useContext(UserContext);
   const [data, setData] = React.useState(null)
   const [chartData, setChartData] = React.useState([]);
+
+  const [year, setYear] = React.useState(0);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -33,13 +35,10 @@ export default function Login(): JSX.Element {
       const data = await resp.json();
       setData(data.result);
 
-      if (chartData.length != 0) {
-        return;
-      }
-
       const chartResp = await fetch('/api/admin/weightvis', {
         headers: {
-          Authorization: `${state.token_type} ${state.access_token}`
+          Authorization: `${state.token_type} ${state.access_token}`,
+          year: year.toString()
         },
         method: 'GET'
       });
@@ -52,7 +51,14 @@ export default function Login(): JSX.Element {
     }
     fetchData();
 
-  }, [state]);
+  }, [state, year]);
+
+  const years = [];
+
+  for (let i = 2010; i <= 2021; i++) {
+    years.push(i);
+  }
+
 
   return (
     <>
@@ -66,9 +72,31 @@ export default function Login(): JSX.Element {
           {
             data &&
             <>
-              <ChartComponent title="Total weight of all shipment bundles shipped on a given date" 
-              x={chartData.map(x => x['shipping_date'])} 
-              y={chartData.map(y => y['total_weight'])} />
+              <div style={{ display: 'flex', width: '100%' }}>
+
+                <FormControl variant="outlined" style={{ flex: 1 }}>
+                  <InputLabel id="year-select-outlined-label">
+                    Filter by year
+                  </InputLabel>
+                  <Select
+                    labelId="year"
+                    id="year-select"
+                    value={year}
+                    onChange={(e) => setYear(e.target.value as number)}
+                    label="Filter by year"
+                  >
+                    <MenuItem value={0}>No Filter</MenuItem>
+                    {years.map((year) => (
+                      <MenuItem key={year} value={year}>
+                        {year}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <ChartComponent title="Total weight of all shipment bundles shipped on a given date"
+                x={chartData.map(x => x['shipping_date'])}
+                y={chartData.map(y => y['total_weight'])} />
               <TableContainer>
                 <Table aria-label="simple table">
                   <TableHead>
