@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { query, querySingle } from '@lib/db';
-import { Package } from '@lib/models/packages';
-import { StoredPackage } from '@lib/models/stored-packages';
+import { Employee } from '@lib/models/employees';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     console.log(req.query);
@@ -9,7 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     if (req.method === 'DELETE') {
         try {
 
-            const ret = await query<Package>("DELETE FROM employees WHERE eid = ?", ...[Number(req.body.deleteEid)]);
+            const ret = await query<Employee>("DELETE FROM employees WHERE eid = ?", ...[Number(req.body.deleteEid)]);
             return res.send(ret);
 
         } catch (error: unknown) {
