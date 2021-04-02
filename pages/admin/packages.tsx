@@ -74,7 +74,7 @@ export default function Login(): JSX.Element {
         <title>CPSC 304 Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="Admin (Customers)" loading={!data}>
+      <Header title="Admin (Packages)" loading={!data}>
         <Grid container>
           {
             data &&

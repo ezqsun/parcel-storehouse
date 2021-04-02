@@ -61,7 +61,7 @@ export default function Login(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header title="Admin (Shimpment Bundles)" loading={!data}>
+      <Header title="Admin (Shipment Bundles)" loading={!data}>
         <Grid container>
           {
             data &&
