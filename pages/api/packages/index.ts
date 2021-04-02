@@ -4,6 +4,7 @@ import { Package } from '@lib/models/packages';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
 
+    console.log(1)
     if ("cid" in req.body && "bid" in req.body && "eid" in req.body && "nid" in req.body) {
 
         try {

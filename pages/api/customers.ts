@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { query, querySingle } from '@lib/db';
-import { Package } from '@lib/models/packages';
+import { Customer } from '@lib/models/customers';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     if (req.method === 'GET') {
+        console.log('getting customers');
         try {
 
-            const ret = await query<Package>(`(SELECT c.name
+            const ret = await query<Customer>(`(SELECT c.name
                 FROM customers c
                 WHERE NOT EXISTS (SELECT n.nid
                                     FROM couriers n

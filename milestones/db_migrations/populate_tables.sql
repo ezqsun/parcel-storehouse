@@ -24,6 +24,8 @@ VALUES
     (DEFAULT, '780 No 3 Rd, Richmond', '6047781578'),
     (DEFAULT, '798 W 13th Ave, Vancouver', '6047781475'),
     (DEFAULT, '79 Main St, Vancouver', '7786514788');
+    (DEFAULT, '120 Blundell Rd, Richmond', '6042147894');
+
 
 INSERT INTO works_at(eid, bid)
 VALUES 
