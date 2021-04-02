@@ -21,10 +21,6 @@ interface Data {
   name: string;
 }
 
-interface FormControlEvent extends React.FormEvent<HTMLInputElement> {
-  currentTarget: HTMLInputElement;
-}
-
 export default function Login(): JSX.Element {
   const [state] = React.useContext(UserContext);
   const [data, setData] = React.useState(null);
@@ -50,7 +46,7 @@ export default function Login(): JSX.Element {
     fetchData();
   }, [state]);
 
-  const handleDivisionQuery = async (e: FormControlEvent) => {
+  const handleDivisionQuery = async (e: FormEvent) => {
     //Prevent page from reloading
     e.preventDefault();
     const resp = await fetch("/api/customers", {
