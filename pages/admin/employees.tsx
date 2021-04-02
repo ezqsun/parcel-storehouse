@@ -1,29 +1,42 @@
-import Head from 'next/head';
-import Header from '../../components/Header';
-import React from 'react';
-import { CircularProgress, Grid, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import Image from 'next/image';
-import { UserContext } from 'components/UserState';
-import InfoCard from 'components/InfoCard';
+import Head from "next/head";
+import Header from "../../components/Header";
+import React from "react";
+import {
+  Button, 
+  CircularProgress,
+  Grid,
+  LinearProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField
+} from "@material-ui/core";
+import Image from "next/image";
+import { UserContext } from "components/UserState";
+import InfoCard from "components/InfoCard";
+
+interface FormControlEvent extends React.FormEvent<HTMLInputElement> {
+  currentTarget: HTMLInputElement;
+}
 
 export default function Login(): JSX.Element {
-
   const [state] = React.useContext(UserContext);
-  const [data, setData] = React.useState(null)
+  const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-
     async function fetchData() {
-
       if (!state) {
         return;
       }
 
-      const resp = await fetch('/api/admin/employees', {
+      const resp = await fetch("/api/admin/employees", {
         headers: {
-          Authorization: `${state.token_type} ${state.access_token}`
+          Authorization: `${state.token_type} ${state.access_token}`,
         },
-        method: 'GET'
+        method: "GET",
       });
 
       const data = await resp.json();
@@ -32,8 +45,27 @@ export default function Login(): JSX.Element {
     }
 
     fetchData();
-
   }, [state]);
+
+  const handleDeleteEmployee = async (e: FormControlEvent) => {
+    e.preventDefault();
+    const eid = (e.target as any).elements.deleteEid.value;
+
+    const deleteEmployee = {
+      deleteEid: eid,
+    };
+    console.log(deleteEmployee);
+    console.log(`/api/employees/${eid}`);
+    console.log(JSON.stringify(deleteEmployee));
+
+    const resp = await fetch(`/api/employees/${eid}`, {
+      body: JSON.stringify(deleteEmployee),
+      headers: { "Content-Type": "application/json" },
+      method: "DELETE",
+    });
+    const data = await resp.json();
+    console.log({ resp, data });
+  };
 
   return (
     <>
@@ -42,9 +74,41 @@ export default function Login(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header title="Admin (Branches)" loading={!data}>
+        <Grid item xs={4}>
+          <Grid
+            container
+            style={{
+              backgroundColor: "white",
+              height: "calc(30vh)",
+            }}
+            justify="flex-start"
+            alignContent="center"
+            direction="column"
+          >
+            <h2>Delete existing employee</h2>
+            <form style={{ width: "60%" }} onSubmit={handleDeleteEmployee}>
+              <TextField
+                id="deleteEid"
+                name="deleteEid"
+                label="EID"
+                variant="outlined"
+                fullWidth={true}
+              />
+              <div style={{ padding: "10px" }} />
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+              >
+                Delete
+              </Button>
+            </form>
+          </Grid>
+        </Grid>
         <Grid container>
-          {
-            data &&
+          {data && (
             <>
               <TableContainer>
                 <Table aria-label="simple table">
@@ -73,7 +137,7 @@ export default function Login(): JSX.Element {
                 </Table>
               </TableContainer>
             </>
-          }
+          )}
         </Grid>
       </Header>
     </>

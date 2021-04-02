@@ -12,31 +12,47 @@ export default class Shipments extends React.Component<{}> {
   private handleAverageWeight = async (e: FormEvent) => {
     //Prevent page from reloading
     e.preventDefault();
-    const resp = await fetch("api/packages/shipments", {
-      headers: {},
-      method: "GET",
-    });
+    const operator = (e.target as any).elements.comparison_operator.value;
 
-    const data = await resp.json();
-    console.log({ resp, data });
+    if(operator === "<" ||operator === ">"||operator === "="){
+      const resp = await fetch("api/packages/shipments", {
+        headers: {
+          operator: operator
+        },
+        method: "GET",
+      });
+  
+      const data = await resp.json();
+      console.log({ resp, data });
+  
+      this.printResults(data, operator);
 
-    this.printResults(data);
+    }else{
+      alert('Please enter a valid comparison operator: <, >, =');
+    }
+
   };
 
-  private printResults = (data: Array<Data>) => {
-    const paragraphNode = document.createElement("P");
+  private printResults = (data: Array<Data>, operator: any) => {
+    const nodeToDelete = document.getElementById("paragraphNode")
 
+    if(nodeToDelete){
+      nodeToDelete.remove();
+    }
+
+    const paragraphNode = document.createElement("P");
+    paragraphNode.id = "paragraphNode";
 
     if (!data.length) {
-      const textNodeNoResults = document.createTextNode(` No recipients receive packages with an average weight equal to the
+      const textNodeNoResults = document.createTextNode(` No recipients receive packages with an average weight ${operator} to the
       overall average weight of all shipments`);
       paragraphNode.appendChild(textNodeNoResults);
     } else {
-      const descriptionNode = document.createTextNode(`The following recipients receive packages with an average weight equal to the
+      const descriptionNode = document.createTextNode(`The following recipients receive packages with an average weight ${operator} to the
       overall average weight of all shipments:`);
       paragraphNode.appendChild(descriptionNode);
       paragraphNode.appendChild(document.createElement("P"));
-      
+
       for (let i = 0; i < data.length; i++) {
         let node = document.createTextNode(`${data[i].recipient_name}`);
         paragraphNode.appendChild(node);
@@ -55,52 +71,60 @@ export default class Shipments extends React.Component<{}> {
           <title>CPSC 304 Project</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Header title="Admin" loading={false} >
-        <Grid
-          container
-          style={{
-            height: "100vh",
-          }}
-          justify="center"
-          alignContent="center"
-          direction="row"
-        >
-          <Grid item xs={6}>
-            <Grid
-              container
-              style={{
-                backgroundColor: "white",
-                height: "calc(100vh - 64px)",
-              }}
-              justify="flex-start"
-              alignContent="center"
-              direction="column"
-            >
-              <h2>Shipment packages</h2>
-              <p>
-                Find recipients who receive shipment packages with an average
-                weight that is equal to the average weight of all shipped
-                packages.
-              </p>
-              <form
-                style={{ width: "60%" }}
-                onSubmit={this.handleAverageWeight}
+        <Header title="Admin" loading={false}>
+          <Grid
+            container
+            style={{
+              height: "100vh",
+            }}
+            justify="center"
+            alignContent="center"
+            direction="row"
+          >
+            <Grid item xs={6}>
+              <Grid
+                container
+                style={{
+                  backgroundColor: "white",
+                  height: "calc(100vh - 64px)",
+                }}
+                justify="flex-start"
+                alignContent="center"
+                direction="column"
               >
-                <div style={{ padding: "10px" }} />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
+                <h2>Shipment packages</h2>
+                <p>
+                  Find recipients who receive shipment packages with an average
+                  weight that is equal to the average weight of all shipped
+                  packages.
+                </p>
+                <form
+                  style={{ width: "60%" }}
+                  onSubmit={this.handleAverageWeight}
                 >
-                  Search
-                </Button>
-              </form>
-              <div style={{ padding: "40px" }} />
-              <div id="print_results" style={{ display: "none" }}></div>
+                  <TextField
+                    id="comparison_operator"
+                    name="comparison_operator"
+                    label="Operator: <, >, ="
+                    variant="outlined"
+                    fullWidth={true}
+                  />
+                  <div style={{ padding: "5px" }} />
+                  <div style={{ padding: "10px" }} />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Search
+                  </Button>
+                </form>
+                <div style={{ padding: "40px" }} />
+                <div id="print_results" style={{ display: "none" }}></div>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
         </Header>
       </>
     );
