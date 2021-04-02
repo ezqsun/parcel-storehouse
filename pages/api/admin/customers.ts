@@ -3,6 +3,15 @@ import { query } from "@lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => requireAdmin(req, res, async (req) => {
+
+  const points = Number.parseInt(req.rawRequest.headers['points'] as string);
+
+  let sqlWhere = '';
+
+  if (points != -1 && !Number.isNaN(points)) {
+    sqlWhere = `WHERE points>=${points}`;
+  }
+
   const customers = await query<any>(
     `SELECT 
       customers.cid,
@@ -17,7 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     FROM customers
       LEFT JOIN packages
         ON packages.cid = customers.cid
-        GROUP BY cid
+    ${sqlWhere}
+    GROUP BY cid
     `);
 
   return {

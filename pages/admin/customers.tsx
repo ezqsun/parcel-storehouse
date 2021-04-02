@@ -1,7 +1,8 @@
 import Head from "next/head";
 import Header from "../../components/Header";
-import React, {FormEvent} from "react";
+import React, { FormEvent } from "react";
 import {
+  Box,
   Button,
   CircularProgress,
   Grid,
@@ -12,6 +13,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 import Image from "next/image";
 import { UserContext } from "components/UserState";
@@ -24,6 +26,7 @@ interface Data {
 export default function Login(): JSX.Element {
   const [state] = React.useContext(UserContext);
   const [data, setData] = React.useState(null);
+  const [filter, setFilter] = React.useState("");
 
   React.useEffect(() => {
     async function fetchData() {
@@ -34,6 +37,7 @@ export default function Login(): JSX.Element {
       const resp = await fetch("/api/admin/customers", {
         headers: {
           Authorization: `${state.token_type} ${state.access_token}`,
+          points: filter,
         },
         method: "GET",
       });
@@ -44,7 +48,7 @@ export default function Login(): JSX.Element {
     }
 
     fetchData();
-  }, [state]);
+  }, [state, filter]);
 
   const handleDivisionQuery = async (e: FormEvent) => {
     //Prevent page from reloading
@@ -67,7 +71,7 @@ export default function Login(): JSX.Element {
       nodeToDelete.remove();
     }
 
-    const paragraphNode = document.createElement("P");
+    const paragraphNode = document.createElement("h4");
     paragraphNode.id = "paragraphNode";
 
     if (!data.length) {
@@ -77,7 +81,7 @@ export default function Login(): JSX.Element {
       paragraphNode.appendChild(textNodeNoResults);
     } else {
       const descriptionNode = document.createTextNode(
-        `customers have ordered packages using all the couriers:`
+        `Customers who have ordered packages using all the couriers:`
       );
       paragraphNode.appendChild(descriptionNode);
       paragraphNode.appendChild(document.createElement("P"));
@@ -114,7 +118,8 @@ export default function Login(): JSX.Element {
               container
               style={{
                 backgroundColor: "white",
-                height: "30vh"              }}
+                height: "30vh",
+              }}
               justify="flex-start"
               alignContent="center"
               direction="column"
@@ -124,10 +129,7 @@ export default function Login(): JSX.Element {
                 Find recipients who have ordered packages that in total have
                 been shipped using all the couriers.
               </p>
-              <form
-                style={{ width: "60%" }}
-                onSubmit={handleDivisionQuery}
-              >
+              <form style={{ width: "60%" }} onSubmit={handleDivisionQuery}>
                 <div style={{ padding: "10px" }} />
                 <Button
                   type="submit"
@@ -139,15 +141,28 @@ export default function Login(): JSX.Element {
                 </Button>
               </form>
               <div style={{ padding: "40px" }} />
-              <div id="print_results" style={{ display: "none" }}></div>
             </Grid>
           </Grid>
+          <Grid item xs={6}>
+          <div style={{ padding: "30px" }} />
+            <div id="print_results" style={{ display: "none" }}></div>
+          </Grid>
         </Grid>
-
         <Grid container>
           {data && (
             <>
-              <p>Note: To add a new customer, register a new account</p>
+              <Grid style={{ width: "100%" }}>
+                <p>Note: To add a new customer, register a new account</p>
+                <Box style={{ display: "flex" }}>
+                  <TextField
+                    label="Filter by number of points (points >= value)"
+                    variant="outlined"
+                    style={{ flex: 1 }}
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                  />
+                </Box>
+              </Grid>
               <TableContainer>
                 <Table aria-label="simple table">
                   <TableHead>

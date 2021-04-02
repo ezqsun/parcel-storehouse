@@ -14,9 +14,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       branches.address as branch_address,
       branches.phone_number as branch_phone
     FROM employees
-      INNER JOIN works_at
+      LEFT JOIN works_at
         ON employees.eid = works_at.eid
-      INNER JOIN branches as branches
+      LEFT JOIN branches as branches
         ON branches.bid = works_at.bid
     ORDER BY eid`);
 
@@ -27,6 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       INNER JOIN employees
         ON employees.eid = packages.eid
     GROUP BY packages.eid`);
+
+
 
   return {
     statusCode: 200,

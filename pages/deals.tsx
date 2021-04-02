@@ -81,7 +81,13 @@ export default function Deals(): JSX.Element {
               }
             </Select>
           </FormControl>
-          <TextField id="bal-amount" className={classes.formControl} label="Deal filter (discount > input)" variant="outlined" value={discount} onChange={(e) => setDiscount(e.target.value)} />
+          <TextField 
+            id="bal-amount" 
+            className={classes.formControl} 
+            label="Deal filter (discount > input)" 
+            variant="outlined" 
+            value={discount} 
+            onChange={(e) => setDiscount(e.target.value)} />
           {
             data && couriers.length > 0 &&
             <>
