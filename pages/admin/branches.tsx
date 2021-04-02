@@ -1,17 +1,27 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import React from 'react';
-import { CircularProgress, Divider, Grid, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { CircularProgress, Divider, FormControl, Grid, InputLabel, LinearProgress, makeStyles, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import Image from 'next/image';
 import { UserContext } from 'components/UserState';
 import InfoCard from 'components/InfoCard';
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 300,
+  }
+}));
+
 export default function Login(): JSX.Element {
+
+  const classes = useStyles();
 
   const [state] = React.useContext(UserContext);
   const [data, setData] = React.useState(null);
 
-  const [cust, setCust] = React.useState(null)
+  const [cust, setCust] = React.useState(null);
+  const [bid, setBid] = React.useState(-1);
 
   React.useEffect(() => {
 
@@ -29,26 +39,22 @@ export default function Login(): JSX.Element {
       });
 
       const data = await resp.json();
-
       setData(data.result);
-
-
 
       const custResp = await fetch('/api/admin/branch-cust', {
         headers: {
-          Authorization: `${state.token_type} ${state.access_token}`
+          Authorization: `${state.token_type} ${state.access_token}`,
+          bid: bid.toString()
         },
         method: 'GET'
       });
-
       const custData = await custResp.json();
-
       setCust(custData.result);
     }
 
     fetchData();
 
-  }, [state]);
+  }, [state, bid]);
 
   return (
     <>
@@ -96,6 +102,25 @@ export default function Login(): JSX.Element {
           {
             cust &&
             <>
+              <Grid container>
+
+              <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="branch-select-outlined-label">Filter by branch</InputLabel>
+                  <Select
+                    labelId="branch"
+                    id="branch-select"
+                    value={bid}
+                    onChange={(e) => setBid(e.target.value as number)}
+                    label="Filter by branch"
+                  >
+
+                    <MenuItem value={-1}>No Filter</MenuItem>
+                    {
+                      data.map(cust => <MenuItem value={cust.bid}>({cust.bid}) Branch</MenuItem>)
+                    }
+                  </Select>
+                </FormControl>
+              </Grid>
               <TableContainer>
                 <Table aria-label="simple table">
                   <TableHead>

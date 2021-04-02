@@ -16,12 +16,12 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
   if (req.rawRequest.method === 'PUT' || req.rawRequest.method === 'POST') {
 
-    const newData = req.rawRequest.body as Customer;
-    return updateUserData(newData, req.sub);
+    const newData = JSON.parse(req.rawRequest.body) as Customer;
+    return await updateUserData(newData, req.sub);
   }
 
   if (req.rawRequest.method === 'GET') {
-    return getUserData(req.sub);
+    return await getUserData(req.sub);
   }
 
   return {
@@ -32,14 +32,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
 async function updateUserData(cus: Customer, cid: number) {
 
-  if (cus.cid != cid) {
-    return {
-      statusCode: 403,
-      error: 'Invalid cid provided to server.'
-    }
-  }
-
-  queryEmpty(
+  console.log(cus);
+  
+  await queryEmpty(
     `UPDATE 
       customers 
     SET 
@@ -56,7 +51,7 @@ async function updateUserData(cus: Customer, cid: number) {
 }
 
 async function getUserData(cid: number) {
-  const user = await querySingle<Customer>("SELECT * FROM customers WHERE cid = ?", cid);
+  const user = await querySingle<Customer>("SELECT address, email, name, points, registration_date, phone_number FROM customers WHERE cid = ?", cid);
 
   delete user.password;
   return {

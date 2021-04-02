@@ -23,6 +23,7 @@ interface Props {
 export const UserProvider = ({ children }: Props): JSX.Element => {
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [init, setInit] = React.useState(false);
 
   useEffect(() => {
     db.user.toArray().then(user => {
@@ -37,15 +38,17 @@ export const UserProvider = ({ children }: Props): JSX.Element => {
 
   useEffect(() => {
 
-    if (state) {
+    if (state && !init) {
 
       if (state.expires_on <= Math.floor(Date.now() / 1000) + 1800) {
 
         updateAuth();
       } else {
-
+        setInit(true);
         setTimeout(() => updateAuth(), 1800000);
       }
+    } else if (init) {
+      console.log('auth already init');
     }
 
     async function updateAuth() {
