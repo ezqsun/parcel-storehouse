@@ -37,7 +37,7 @@ CREATE TABLE works_at
 	`eid` INT NOT NULL,
     `bid` INT NOT NULL,
     PRIMARY KEY (`eid`, `bid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE CASCADE,
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
 );
 
@@ -80,7 +80,7 @@ CREATE TABLE packages
     `pid` INT NOT NULL AUTO_INCREMENT,
     `cid` INT NULL,
     `bid` INT NOT NULL,
-    `eid` INT NOT NULL,
+    `eid` INT NULL,
     `nid` INT NOT NULL,
     `tracking_number` varchar(36) NOT NULL,
     `processed_date` DATE,
@@ -89,7 +89,7 @@ CREATE TABLE packages
     FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
     FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 );
 
 
@@ -100,8 +100,10 @@ CREATE TABLE shipments
     `destination_address` varchar(255) NOT NULL,
     `weight` FLOAT NOT NULL DEFAULT 0,
     `recipient_name` varchar(255) NOT NULL,
+    `eid` INT NULL,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`)
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE,
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 );
 
 CREATE TABLE shipment_bundles
@@ -112,12 +114,12 @@ CREATE TABLE shipment_bundles
     `recipient_name` varchar(255) NOT NULL,
     `destination_address` varchar(255) NOT NULL,
     `shipping_date` DATE NOT NULL,
-    `eid` INT NOT NULL,
+    `eid` INT NULL,
     `nid` INT NOT NULL,
     PRIMARY KEY (`sbid`),
     FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
     FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 
 );
 
@@ -137,9 +139,9 @@ CREATE TABLE shipment_bundles_contains_storage
     `arrival_date` DATE NOT NULL,
     `picked_up` BOOL NOT NULL,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`),
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE,
     FOREIGN KEY (`sbid`) REFERENCES shipment_bundles(`sbid`),
-    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`)
+    FOREIGN KEY (`arrival_date`, `picked_up`) REFERENCES shipment_bundles_to_dispose_of(`arrival_date`, `picked_up`) ON UPDATE CASCADE
 );
 
 
@@ -166,15 +168,6 @@ CREATE TABLE drop_off_points
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
 );
 
-CREATE TABLE shipped_by
-(
-	`eid` INT NOT NULL,
-    `pid` INT NOT NULL,
-    PRIMARY KEY (`eid`, `pid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`)
-);
-
 /* -------------------------------------------------------------------------
  * Migrations Table
  *
@@ -189,7 +182,7 @@ CREATE TABLE migrations
     PRIMARY KEY (`migration_id`)
 );
 
-INSERT INTO migrations(`migration_id`) VALUES (0)
+INSERT INTO migrations(`migration_id`) VALUES (0);
 
 INSERT INTO position_to_wage(position, wage)
 VALUES 
@@ -217,6 +210,8 @@ VALUES
     (DEFAULT, '780 No 3 Rd, Richmond', '6047781578'),
     (DEFAULT, '798 W 13th Ave, Vancouver', '6047781475'),
     (DEFAULT, '79 Main St, Vancouver', '7786514788');
+    (DEFAULT, '120 Blundell Rd, Richmond', '6042147894');
+
 
 INSERT INTO works_at(eid, bid)
 VALUES 
@@ -277,25 +272,33 @@ VALUES
     (DEFAULT, 3, 4, 2, 3, 'SGSHO26620751', '2014-11-30', '2014-11-12'),
     (DEFAULT, 4, 4, 2, 3, 'GAJNG20671067', '2012-05-05', '2012-05-01'),  
     (DEFAULT, 4, 4, 2, 3, '3687GAODG8702', '2017-07-14', '2017-07-04'),
-    (DEFAULT, 4, 4, 2, 3, 'TGE927515NGG1', '2019-02-01', '2019-01-11');  
+    (DEFAULT, 4, 4, 2, 3, 'TGE927515NGG1', '2019-02-01', '2019-01-11'),
+    (DEFAULT, 5, 2, 4, 4, '15LAKGNL15156', '2021-03-01', '2021-02-11'),
+    (DEFAULT, 5, 3, 1, 1, '35188AKJN1KK2', '2021-02-15', '2021-02-03'),
+    (DEFAULT, 4, 4, 2, 2, '1298475KAJGNL', '2021-02-01', '2021-01-11'),
+    (DEFAULT, 5, 4, 2, 2, '782WAGK2851NN', '2021-04-01', '2021-03-18'),
+    (DEFAULT, 5, 4, 2, 5, '569ATG3T19586', '2021-03-16', '2021-03-07');
+
 
     
 
-INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name)
+INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name, eid)
 VALUES
-    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 12.42, 'Emily Sun'),
-    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.11, 'George Ponta'),
-    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.41, 'Leslie Jo'),
-    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.97, 'Irene Ng');
+    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 5.0, 'Emily Sun',1),
+    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.0, 'George Ponta', 1),
+    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.0, 'Leslie Jo', 3),
+    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.0, 'Irene Ng', 2),
+    (14, '2021-03-17', '9614 E 55 Ave, Vancouver ', 5.0, 'Irene Ng', 2),
+    (15, '2021-02-15', '3007 8th Ave W Vancouver ', 1.0, 'Irene Ng', 3);
+
 
 INSERT INTO shipment_bundles(sbid, cid, weight, recipient_name, destination_address, shipping_date, eid, nid)
 VALUES
     (DEFAULT, 4, 6.74, 'Nancy Drew', '3007 8th Ave W Vancouver', '2021-02-28', 1, 1),
     (DEFAULT, 4, 1.47, 'Daniel Can', '9614 E 55 Ave, Vancouver', '2020-12-09', 2, 2),
     (DEFAULT, 5, 16.72, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-11-09', 2, 1),
-    (DEFAULT, 3, 8.98, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-12-09', 3, 1)
+    (DEFAULT, 3, 8.98, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-12-09', 3, 1),
     (DEFAULT, 1, 5.69, 'Cristal Schoen', '3112 Demarco Neck Uptonbury', '2020-10-26', 1, 1),
-
     (DEFAULT, 2, 61.24, 'Royal Schowalter', '054 Wilburn Causeway East Pattietown', '2012-9-21', 2, 2),
     (DEFAULT, 3, 90.21, 'Duncan Hansen', '9792 Krajcik Forks Hettingerfurt', '2018-7-22', 3, 3),
     (DEFAULT, 4, 88.28, 'Imelda Mills', '024 Glover Mountains New Jennyfer', '2011-7-25', 4, 1),
@@ -1343,9 +1346,13 @@ VALUES
     (5,2),
     (6,1);
 
-INSERT INTO shipped_by(eid, pid)
-VALUES
-    (1,1),
-    (1,2),
-    (3,3),
-    (2,4);
+
+
+
+
+
+    
+
+
+    
+    
