@@ -16,6 +16,8 @@ Group Number: 72
 # CS Ship (or some name idk)
 A shipping app
 
+An example of the website running can be found ![here](https://cpsc.mellie.dev)
+
 ## Running the project
 ### Note 
 The database information (ip, user, pass) is hardcoded in the app. 
