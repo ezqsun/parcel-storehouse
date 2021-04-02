@@ -94,14 +94,14 @@ VALUES
 
     
 
-INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name)
+INSERT INTO shipments(pid, shipping_date, destination_address, weight, recipient_name, eid)
 VALUES
-    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 5.0, 'Emily Sun'),
-    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.0, 'George Ponta'),
-    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.0, 'Leslie Jo'),
-    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.0, 'Irene Ng'),
-    (14, '2021-03-17', '9614 E 55 Ave, Vancouver ', 5.0, 'Irene Ng'),
-    (15, '2021-02-15', '3007 8th Ave W Vancouver ', 1.0, 'Irene Ng');
+    (1, '2020-02-06', '303 621 57th Ave W Vancouver', 5.0, 'Emily Sun',1),
+    (2, '2020-01-06', '2425 7th Ave W Vancouver ', 4.0, 'George Ponta', 1),
+    (3, '2012-05-01', '2425 7th Ave W Vancouver ', 3.0, 'Leslie Jo', 3),
+    (4, '2018-07-22', '3007 8th Ave W Vancouver ', 6.0, 'Irene Ng', 2),
+    (14, '2021-03-17', '9614 E 55 Ave, Vancouver ', 5.0, 'Irene Ng', 2),
+    (15, '2021-02-15', '3007 8th Ave W Vancouver ', 1.0, 'Irene Ng', 3);
 
 
 INSERT INTO shipment_bundles(sbid, cid, weight, recipient_name, destination_address, shipping_date, eid, nid)
@@ -109,9 +109,8 @@ VALUES
     (DEFAULT, 4, 6.74, 'Nancy Drew', '3007 8th Ave W Vancouver', '2021-02-28', 1, 1),
     (DEFAULT, 4, 1.47, 'Daniel Can', '9614 E 55 Ave, Vancouver', '2020-12-09', 2, 2),
     (DEFAULT, 5, 16.72, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-11-09', 2, 1),
-    (DEFAULT, 3, 8.98, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-12-09', 3, 1)
+    (DEFAULT, 3, 8.98, 'Morton Ages', '1949 Comox St 305 Vancouver', '2014-12-09', 3, 1),
     (DEFAULT, 1, 5.69, 'Cristal Schoen', '3112 Demarco Neck Uptonbury', '2020-10-26', 1, 1),
-
     (DEFAULT, 2, 61.24, 'Royal Schowalter', '054 Wilburn Causeway East Pattietown', '2012-9-21', 2, 2),
     (DEFAULT, 3, 90.21, 'Duncan Hansen', '9792 Krajcik Forks Hettingerfurt', '2018-7-22', 3, 3),
     (DEFAULT, 4, 88.28, 'Imelda Mills', '024 Glover Mountains New Jennyfer', '2011-7-25', 4, 1),
@@ -1159,9 +1158,13 @@ VALUES
     (5,2),
     (6,1);
 
-INSERT INTO shipped_by(eid, pid)
-VALUES
-    (1,1),
-    (1,2),
-    (3,3),
-    (2,4);
+
+
+
+
+
+    
+
+
+    
+    

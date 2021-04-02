@@ -37,7 +37,7 @@ CREATE TABLE works_at
 	`eid` INT NOT NULL,
     `bid` INT NOT NULL,
     PRIMARY KEY (`eid`, `bid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE CASCADE,
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
 );
 
@@ -80,7 +80,7 @@ CREATE TABLE packages
     `pid` INT NOT NULL AUTO_INCREMENT,
     `cid` INT NULL,
     `bid` INT NOT NULL,
-    `eid` INT NOT NULL,
+    `eid` INT NULL,
     `nid` INT NOT NULL,
     `tracking_number` varchar(36) NOT NULL,
     `processed_date` DATE,
@@ -89,7 +89,7 @@ CREATE TABLE packages
     FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
     FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 );
 
 
@@ -100,8 +100,10 @@ CREATE TABLE shipments
     `destination_address` varchar(255) NOT NULL,
     `weight` FLOAT NOT NULL DEFAULT 0,
     `recipient_name` varchar(255) NOT NULL,
+    `eid` INT NULL,
     PRIMARY KEY (`pid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE
+    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE,
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 );
 
 CREATE TABLE shipment_bundles
@@ -112,12 +114,12 @@ CREATE TABLE shipment_bundles
     `recipient_name` varchar(255) NOT NULL,
     `destination_address` varchar(255) NOT NULL,
     `shipping_date` DATE NOT NULL,
-    `eid` INT NOT NULL,
+    `eid` INT NULL,
     `nid` INT NOT NULL,
     PRIMARY KEY (`sbid`),
     FOREIGN KEY (`cid`) REFERENCES customers(`cid`),
     FOREIGN KEY (`nid`) REFERENCES couriers(`nid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`)
+    FOREIGN KEY (`eid`) REFERENCES employees(`eid`) ON DELETE SET NULL
 
 );
 
@@ -164,15 +166,6 @@ CREATE TABLE drop_off_points
     PRIMARY KEY (`nbid`, `bid`),
     FOREIGN KEY (`nbid`) REFERENCES courier_branch_is_store_of_courier(`nbid`),
     FOREIGN KEY (`bid`) REFERENCES branches(`bid`)
-);
-
-CREATE TABLE shipped_by
-(
-	`eid` INT NOT NULL,
-    `pid` INT NOT NULL,
-    PRIMARY KEY (`eid`, `pid`),
-    FOREIGN KEY (`eid`) REFERENCES employees(`eid`),
-    FOREIGN KEY (`pid`) REFERENCES packages(`pid`) ON DELETE CASCADE
 );
 
 /* -------------------------------------------------------------------------
