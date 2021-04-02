@@ -106,6 +106,7 @@ export default function Login(): JSX.Element {
     } else {
       alert("Please enter a valid comparison operator: <, >, =");
     }
+    document.getElementById("avgForm").reset();
   };
 
   const printResults = (data: Array<Data>, operator: any) => {
@@ -139,6 +140,73 @@ export default function Login(): JSX.Element {
     document.getElementById("print_results").style.display = "block";
   };
 
+  const handleInsertPackage = async (e: FormEvent) => {
+    //Prevent page from reloading
+    e.preventDefault();
+    const newPackage = (e.target as any).elements;
+
+    const resp = await fetch("/api/packages", {
+      body: JSON.stringify({
+        cid: newPackage.cid.value,
+        bid: newPackage.bid.value,
+        eid: newPackage.eid.value,
+        nid: newPackage.nid.value,
+        tracking_number: newPackage.tracking_number.value,
+        processed_date: newPackage.processed_date.value,
+        ordered_date: newPackage.ordered_date.value,
+      }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });
+
+    const data = await resp.json();
+    console.log({ resp, data });
+    document.getElementById("insertForm").reset();
+    alert("Successfully added new package!");
+  };
+
+  const handleDeletePackage = async (e: FormEvent) => {
+    e.preventDefault();
+    const pid = (e.target as any).elements.deletePid.value;
+    const deletePackage = {
+      deletePid: pid,
+    };
+    console.log(deletePackage);
+    console.log(`/api/packages/${pid}`);
+    console.log(JSON.stringify(deletePackage));
+
+    const resp = await fetch(`/api/packages/${pid}`, {
+      body: JSON.stringify(deletePackage),
+      headers: { "Content-Type": "application/json" },
+      method: "DELETE",
+    });
+    const data = await resp.json();
+    console.log({ resp, data });
+    document.getElementById("deleteForm").reset();
+    alert("Successfully deleted package!");
+  };
+
+  const handlePickup = async (e: FormEvent) => {
+    e.preventDefault();
+    const isPickedUp = (e.target as any).elements.isPickedUp.value;
+    console.log(isPickedUp);
+    console.log(`/api/packages/${(e.target as any).elements.pickupPid.value}`);
+    const resp = await fetch(
+      `/api/packages/${(e.target as any).elements.pickupPid.value}`,
+      {
+        body: JSON.stringify({
+          isPickedUp: isPickedUp,
+        }),
+        headers: { "Content-Type": "application/json" },
+        method: "PUT",
+      }
+    );
+    const data = await resp.json();
+    console.log({ resp, data });
+    document.getElementById("updateForm").reset();
+    alert("Successfully updated package pickup status!");
+  };
+
   return (
     <>
       <Head>
@@ -146,7 +214,6 @@ export default function Login(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header title="Admin (Customers)" loading={!data}>
-        
         <Grid container>
           {data && (
             <>
@@ -244,15 +311,182 @@ export default function Login(): JSX.Element {
             </>
           )}
         </Grid>
-        <Grid
-          container
-          style={{
-            height: "70vh",
-          }}
-          justify="center"
-          alignContent="center"
-          direction="row"
-        >
+        <div style={{ padding: "30px" }} />
+
+        <Grid container>
+          <Grid item xs={4}>
+            <Grid
+              container
+              style={{
+                backgroundColor: "white",
+                height: "calc(100vh - 64px)",
+              }}
+              justify="flex-start"
+              alignContent="center"
+              direction="column"
+            >
+              <h2>Add new package</h2>
+              <form
+                style={{ width: "80%" }}
+                onSubmit={handleInsertPackage}
+                id="insertForm"
+              >
+                <TextField
+                  id="cid"
+                  name="cid"
+                  label="Customer CID"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+                <TextField
+                  id="tracking_number"
+                  name="tracking_number"
+                  label="Tracking Number"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="ordered_date"
+                  name="ordered_date"
+                  label="Ordered Date"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="processed_date"
+                  name="processed_date"
+                  label="Processed Date"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="nid"
+                  name="nid"
+                  label="Courier"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="bid"
+                  name="bid"
+                  label="Branch"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="eid"
+                  name="eid"
+                  label="Employee"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "10px" }} />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Add
+                </Button>
+              </form>
+            </Grid>
+          </Grid>
+          <Grid item xs={4}>
+            <Grid
+              container
+              style={{
+                backgroundColor: "white",
+                height: "calc(100vh - 64px)",
+              }}
+              justify="flex-start"
+              alignContent="center"
+              direction="column"
+            >
+              <h2>Delete existing package</h2>
+              <form
+                id="deleteForm"
+                style={{ width: "80%" }}
+                onSubmit={handleDeletePackage}
+              >
+                <TextField
+                  id="deletePid"
+                  name="deletePid"
+                  label="PID"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "10px" }} />
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Delete
+                </Button>
+              </form>
+            </Grid>
+          </Grid>
+          <Grid item xs={4}>
+            <Grid
+              container
+              style={{
+                backgroundColor: "white",
+                height: "calc(100vh - 64px)",
+              }}
+              justify="flex-start"
+              alignContent="center"
+              direction="column"
+            >
+              <h2>Update pick-up status</h2>
+              <form
+                style={{ width: "80%" }}
+                onSubmit={handlePickup}
+                id="updateForm"
+              >
+                <TextField
+                  id="pickupPid"
+                  name="pickupPid"
+                  label="PID"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+                <div style={{ padding: "5px" }} />
+
+                <TextField
+                  id="isPickedUp"
+                  name="isPickedUp"
+                  label="Picked up: true or false"
+                  variant="outlined"
+                  fullWidth={true}
+                />
+
+                <div style={{ padding: "10px" }} />
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Update
+                </Button>
+              </form>
+            </Grid>
+          </Grid>
           <Grid item xs={6}>
             <Grid
               container
@@ -269,7 +503,11 @@ export default function Login(): JSX.Element {
                 weight that is equal to the average weight of all shipped
                 packages.
               </p>
-              <form style={{ width: "60%" }} onSubmit={handleAverageWeight}>
+              <form
+                style={{ width: "60%" }}
+                onSubmit={handleAverageWeight}
+                id="avgForm"
+              >
                 <TextField
                   id="comparison_operator"
                   name="comparison_operator"
