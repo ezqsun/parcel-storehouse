@@ -47,7 +47,7 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Accounts
-This app requires you to login to view some of the features. These a few of the account credentials
+This app requires you to login to view some of the features. These are a few of the account credentials
 
 | Email                   | Password                   | Notes                                |
 |:-----------------------:|:--------------------------:|:------------------------------------:|
@@ -77,4 +77,4 @@ as revoking of refresh tokens.
 
 Alternatively, an auth lib could have been used; however, many of these libraries for next-js had defined 
 user structures, so we chose to run our own auth library as it gave us control over the SQL queries and 
-allowed us to chose how we would structure our data.
+allowed us to choose how we would structure our data.

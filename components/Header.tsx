@@ -13,21 +13,20 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/core/styles';
-import Link from 'next/link';
-import { UserContext } from './UserState';
-import React from 'react';
-import { deepOrange } from '@material-ui/core/colors';
-import clsx from 'clsx';
+  Typography,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import { makeStyles } from "@material-ui/core/styles";
+import Link from "next/link";
+import { UserContext } from "./UserState";
+import React from "react";
+import { deepOrange } from "@material-ui/core/colors";
+import clsx from "clsx";
 
-import DashbaordIcon from '@material-ui/icons/Dashboard';
-import ShipIcon from '@material-ui/icons/FlightTakeoff';
-import DealIcon from '@material-ui/icons/LocalAtm';
-import FlightLandIcon from '@material-ui/icons/FlightLand';
-
+import DashbaordIcon from "@material-ui/icons/Dashboard";
+import ShipIcon from "@material-ui/icons/FlightTakeoff";
+import DealIcon from "@material-ui/icons/LocalAtm";
+import FlightLandIcon from "@material-ui/icons/FlightLand";
 
 const drawerWidth = 240;
 
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: 'white'
+    color: "white",
   },
   drawer: {
     width: drawerWidth,
@@ -53,19 +52,19 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   drawerContainer: {
-    overflow: 'auto',
+    overflow: "auto",
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: drawerWidth,
   },
   contentShift: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -74,14 +73,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  title: string,
-  children: React.ReactNode,
-  loading?: boolean
+  title: string;
+  children: React.ReactNode;
+  loading?: boolean;
 }
 
-
-export default function Header({ title, children, loading }: Props): JSX.Element {
-
+export default function Header({
+  title,
+  children,
+  loading,
+}: Props): JSX.Element {
   const classes = useStyles();
   const [state, dispatch] = React.useContext(UserContext);
 
@@ -100,14 +101,19 @@ export default function Header({ title, children, loading }: Props): JSX.Element
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawerState(!drawerOpen)}>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={() => setDrawerState(!drawerOpen)}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
-          {
-            !state &&
+          {!state && (
             <>
               <Link href="/auth/register">
                 <Button color="inherit">Register</Button>
@@ -116,12 +122,17 @@ export default function Header({ title, children, loading }: Props): JSX.Element
                 <Button color="inherit">Login</Button>
               </Link>
             </>
-          }
-          {
-            state &&
+          )}
+          {state && (
             <>
-              <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                <Avatar style={{ backgroundColor: deepOrange[500] }}>{state.user_data.name[0]}</Avatar>
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <Avatar style={{ backgroundColor: deepOrange[500] }}>
+                  {state.user_data.name[0]}
+                </Avatar>
               </Button>
               <Menu
                 id="simple-menu"
@@ -130,23 +141,28 @@ export default function Header({ title, children, loading }: Props): JSX.Element
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem style={{ width: '200px' }} disabled>Hi {state.user_data.name}!</MenuItem>
+                <MenuItem style={{ width: "200px" }} disabled>
+                  Hi {state.user_data.name}!
+                </MenuItem>
                 <Link href="/user/profile">
                   <MenuItem>Profile</MenuItem>
                 </Link>
                 <Link href="/user/account">
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                 </Link>
-                <MenuItem onClick={() => dispatch({ type: 'LOGOUT' })}>Logout</MenuItem>
+                <MenuItem onClick={() => dispatch({ type: "LOGOUT" })}>
+                  Logout
+                </MenuItem>
               </Menu>
             </>
-          }
+          )}
         </Toolbar>
       </AppBar>
-      {
-        loading && 
-        <div style={{ marginTop: '64px' }}><LinearProgress color="secondary"/></div>
-      }
+      {loading && (
+        <div style={{ marginTop: "64px" }}>
+          <LinearProgress color="secondary" />
+        </div>
+      )}
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -158,48 +174,49 @@ export default function Header({ title, children, loading }: Props): JSX.Element
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {
-              state && state.user_data.role === 'admin' &&
+            {state && state.user_data.role === "admin" && (
               <>
-
                 <Link href="/admin">
                   <ListItem button>
-                    <ListItemIcon><DashbaordIcon /></ListItemIcon>
+                    <ListItemIcon>
+                      <DashbaordIcon />
+                    </ListItemIcon>
                     <ListItemText primary="Admin Dashboard" />
+                  </ListItem>
+                </Link>
+                <Link href="/admin/packages">
+                  <ListItem button>
+                    <ListItemIcon>
+                      <ShipIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Ship" />
                   </ListItem>
                 </Link>
                 <Divider />
               </>
-            }
+            )}
             <Link href="/">
               <ListItem button>
-                <ListItemIcon><DashbaordIcon /></ListItemIcon>
+                <ListItemIcon>
+                  <DashbaordIcon />
+                </ListItemIcon>
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
             <Link href="/deals">
               <ListItem button>
-                <ListItemIcon><DealIcon /></ListItemIcon>
+                <ListItemIcon>
+                  <DealIcon />
+                </ListItemIcon>
                 <ListItemText primary="Deal finder" />
-              </ListItem>
-            </Link>
-            <Link href="/packages">
-              <ListItem button>
-                <ListItemIcon><ShipIcon /></ListItemIcon>
-                <ListItemText primary="Ship" />
-              </ListItem>
-            </Link>
-            <Link href="/shipments">
-              <ListItem button>
-                <ListItemIcon><FlightLandIcon /></ListItemIcon>
-                <ListItemText primary="Shipments" />
               </ListItem>
             </Link>
           </List>
         </div>
       </Drawer>
 
-      <main style={{ marginTop: '64px' }}
+      <main
+        style={{ marginTop: "64px" }}
         className={clsx(classes.content, {
           [classes.contentShift]: !drawerOpen,
         })}
