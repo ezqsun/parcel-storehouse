@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { query, querySingle } from '@lib/db';
+import { query } from '@lib/db';
 import { Employee } from '@lib/models/employees';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
