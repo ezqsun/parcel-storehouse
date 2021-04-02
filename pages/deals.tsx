@@ -18,7 +18,7 @@ export default function Deals(): JSX.Element {
 
   const [data, setData] = React.useState(null);
 
-  const [couriers, setCouriers] = React.useState([])
+  const [couriers, setCouriers] = React.useState([]);
 
   const [nid, setNid] = React.useState(-1);
   const [discount, setDiscount] = React.useState('1.0');
@@ -38,7 +38,7 @@ export default function Deals(): JSX.Element {
       console.log('updated');
       setData(data.result);
     }
-    fetchData()
+    fetchData();
   }, [nid, discount]);
 
 

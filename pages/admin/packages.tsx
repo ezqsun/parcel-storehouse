@@ -106,7 +106,7 @@ export default function Login(): JSX.Element {
     } else {
       alert("Please enter a valid comparison operator: <, >, =");
     }
-    document.getElementById("avgForm").reset();
+    (document.getElementById("avgForm") as any).reset();
   };
 
   const printResults = (data: Array<Data>, operator: any) => {
@@ -161,7 +161,7 @@ export default function Login(): JSX.Element {
 
     const data = await resp.json();
     console.log({ resp, data });
-    document.getElementById("insertForm").reset();
+    (document.getElementById("insertForm") as any).reset();
     alert("Successfully added new package!");
   };
 
@@ -182,7 +182,7 @@ export default function Login(): JSX.Element {
     });
     const data = await resp.json();
     console.log({ resp, data });
-    document.getElementById("deleteForm").reset();
+    (document.getElementById("deleteForm") as any).reset();
     alert("Successfully deleted package!");
   };
 
@@ -203,7 +203,7 @@ export default function Login(): JSX.Element {
     );
     const data = await resp.json();
     console.log({ resp, data });
-    document.getElementById("updateForm").reset();
+    (document.getElementById("updateForm") as any).reset();
     alert("Successfully updated package pickup status!");
   };
 

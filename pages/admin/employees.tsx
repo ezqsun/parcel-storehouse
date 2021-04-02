@@ -47,7 +47,7 @@ export default function Login(): JSX.Element {
     fetchData();
   }, [state]);
 
-  const handleDeleteEmployee = async (e: FormControlEvent) => {
+  async function handleDeleteEmployee(e: FormControlEvent) {
     e.preventDefault();
     const eid = (e.target as any).elements.deleteEid.value;
 
@@ -86,7 +86,7 @@ export default function Login(): JSX.Element {
             direction="column"
           >
             <h2>Delete existing employee</h2>
-            <form style={{ width: "60%" }} onSubmit={handleDeleteEmployee}>
+            <form style={{ width: "60%" }} onSubmit={(e) => handleDeleteEmployee((e as any))}>
               <TextField
                 id="deleteEid"
                 name="deleteEid"
