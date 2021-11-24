@@ -2,12 +2,21 @@ import mysql from 'serverless-mysql';
 
 const db = mysql({
   config: {
-    host: '34.69.99.207',
+    host: 'localhost',
     database: 'cpscdb',
-    user: 'cpscuser',
-    password: 'ul1ntaqdwfcl3rqq'
+    user: 'root',
+    password: 'rootpass'
   },
 });
+
+// const db = mysql({
+//   config: {
+//     host: '34.69.99.207',
+//     database: 'cpscdb',
+//     user: 'cpscuser',
+//     password: 'ul1ntaqdwfcl3rqq'
+//   },
+// });
 
 /*
  * Queries the database

@@ -4,26 +4,19 @@ Department of Computer Science
 ***
 
 
-<h1 align="center">CPSC 304 Project</h1>
+<h1 align="center">Relational Database</h1>
+Created by Emily Sun and Mellie Vo
 
-Group Number: 72
-
-| Name         | Student Number | CS Alias | Preferred E-mail Address |
-|:------------:|:--------------:|:--------:|:------------------------:|
-| Emily Sun    | 32474158       | a7f1b    | emilyzqsun@gmail.com     |
-| Mellie Vo    | 48109722       | w1e2b    | hello@mellie.dev         |
-
-# CS Ship (or some name idk)
+# Parcel Storehouse
 A shipping app
-
-An example of the website running can be found ![here](https://cpsc.mellie.dev)
 
 ## Running the project
 ### Note 
 The database information (ip, user, pass) is hardcoded in the app. 
-This is insecure, and environment variables should utilized (in a prod app).
+This is insecure, and environment variables should be utilized (in a prod app).
 
-If you want to use the default database, you will need to connect to the UBC VPN.
+Previously the default database was hosted on a serverless platform and required connection through UBC VPN.
+Currently the database is only accessible through running migrations (milestones/db_migrations) on localhost with default user and rootpass;
 
 If you change the database (located in lib/db.ts), you should apply all the migrations 
 (located in milestones/db_migrations) OR the run the final script (milestones/final.sql).
