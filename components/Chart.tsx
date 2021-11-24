@@ -29,7 +29,7 @@ export default function Header({x, y, title}: Props): JSX.Element {
             {
               x: x,
               y: y,
-              type: 'scatter',
+              type: 'bar',
               mode: 'lines',
               marker: { color: 'red' },
             }
