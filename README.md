@@ -1,9 +1,3 @@
-### University of British Columbia, Vancouver
-Department of Computer Science
-
-***
-
-
 <h1 align="center">Relational Database</h1>
 Created by Emily Sun and Mellie Vo
 
