@@ -2,7 +2,14 @@
 Created by Emily Sun and Mellie Vo
 
 # Parcel Storehouse
-A shipping app
+The application models a parcel storage and shipment domain. Customers can ship packages to a
+branch and pick them up at their own convenience, or drop off packages to be shipped out. The
+database will model the entire process of a customer creating an account with the company,
+therefore obtaining membership and accumulating points that provide tiered discounts for future
+storage, to branch management of parcels coming in and shipping out, and finally to the point of
+sale of charging customers for the service. It will include employee and branch data to record the
+employees that work at a specific branch, and which branches a single employee rotates shifts
+between.
 
 ## Running the project
 ### Note 
